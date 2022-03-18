@@ -10,7 +10,9 @@
       <div class="col-10">
         <select v-model="selectedRole">
           <option value=""></option>
-          <option v-for="role in play.roles" v-bind:key="role.id">{{ role.name }}</option>
+          <option v-for="role in play.roles" v-bind:key="role.id">
+            {{ role.name }}
+          </option>
         </select>
       </div>
     </div>
@@ -29,16 +31,36 @@
         </div>
 
         <div
-          :class="selectedRole != '' && line.said_by.includes(selectedRole) ? 'row selected-text':'row'"
+          class="row"
           v-for="line in scene.play_textbook"
           v-bind:key="line.id"
         >
-          <div class="col-md-3">
-            <b><span class="line-number">{{ pad(line.linenumber, 4) }}</span>
-            <span class="said-by">{{ line.said_by }}:</span></b>
-          </div>
-          <div class="col-md-9">
-            <span class="said-by">{{ line.text }}</span>
+          <div class="container m-0 p-0">
+            <div
+              :class="
+                selectedRole != '' && line.said_by.includes(selectedRole)
+                  ? 'row selected-text'
+                  : 'row'
+              "
+            >
+              <div class="col-md-3">
+                <b
+                  ><span class="line-number">{{
+                    pad(line.linenumber, 4)
+                  }}</span>
+                  <span class="said-by">{{ line.said_by }}:</span></b
+                >
+              </div>
+              <div class="col-md-9">
+                <span class="said-by">{{ line.text }}</span>
+              </div>
+            </div>
+            <div
+              class="row d-flex justify-content-center mt-3 mb-3 p-0"
+              v-if="line.following_stage_direction"
+            >
+              <b>{{ line.following_stage_direction }}</b>
+            </div>
           </div>
         </div>
       </div>
@@ -115,7 +137,7 @@ p {
   font-size: smaller;
 }
 
-.selected-text{
-  background-color: #FFF01F;
+.selected-text {
+  background-color: #fff01f;
 }
 </style>
