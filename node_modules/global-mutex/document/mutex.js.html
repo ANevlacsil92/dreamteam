@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>DocStrap Source: mutex.js</title>
+
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
+
+	<link type="text/css" rel="stylesheet" href="styles/site.cosmo.css">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top navbar-inverse">
+<div class="container">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="index.html">DocStrap</a>
+		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+        </button>
+	</div>
+	<div class="navbar-collapse collapse" id="topNavigation">
+		<ul class="nav navbar-nav">
+			
+			<li class="dropdown">
+				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="Global_.html">Global</a></li><li><a href="Mutex.html">Mutex</a></li><li><a href="MutexStore.html">MutexStore</a></li><li><a href="Singleton.html">Singleton</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="global.html" class="dropdown-toggle" data-toggle="dropdown">Global<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="global.html#InitMutex">InitMutex</a></li><li><a href="global.html#ResetMutex">ResetMutex</a></li>
+				</ul>
+			</li>
+			
+		</ul>
+        
+            <div class="col-sm-3 col-md-3">
+                <form class="navbar-form" role="search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search" name="q" id="search-input">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" id="search-submit"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        
+	</div>
+
+</div>
+</div>
+
+
+<div class="container" id="toc-content">
+<div class="row">
+
+	
+	<div class="col-md-12">
+	
+		<div id="main">
+			
+
+		<h1 class="page-title">Source: mutex.js</h1>
+    
+<section>
+    <article>
+        <pre
+            class="sunlight-highlight-javascript linenums">'use strict';
+
+//
+const debug = require('debug')('mutex:core');
+const debug_error = require('debug')('mutex:error');
+const redis = require('redis');
+const global = require('./global.js');
+
+/**
+ * @private
+ * @typedef {Object} MutexStore~MutexStoreKind
+ * @prop {Number} MEMORY - use memory
+ * @prop {Number} REDIS - use redis
+*/
+const MutexStoreKind = {
+  MEMORY : 0,
+  REDIS : 1,
+};
+
+class MutexStore {
+  //
+  /**
+   * @constructor
+   * @private
+   * @param  {MutexStore~MutexStoreKind} kind  - MutexStore種別
+   * @param  {Object} [option = {host: '127.0.0.1', port: 6379}]  - Redis接続オプション
+   * @param  {String} [prefix = globalmutex]  - キー文字列prefix
+   * @param  {Number} [expire = 60]  - Redisキーexpire
+   */
+  constructor(kind, redisOption, prefix, expire){
+    //
+    redisOption = redisOption || {host: '127.0.0.1', port: 6379};
+    //
+    this.prefix = prefix || 'globalmutex:';
+    this.expire = expire || 60;
+    debug('MutexStore prefox ' + this.prefix);
+    //
+    if(kind === MutexStoreKind.MEMORY){
+      debug('MutexStore Start MEMORY');
+      this.kind = MutexStoreKind.MEMORY;  //memstore
+      this.memstore = {};
+    }else
+    if(kind === MutexStoreKind.REDIS){
+      debug('MutexStore Start Redis');
+      this.kind = MutexStoreKind.REDIS;  //redis
+      this.redisClient = redis.createClient(redisOption);
+      this.redisClient.on('connect', () => {
+        debug('MutexStore Connect Redis', redisOption);
+      });
+      this.redisClient.on('error', (err) => {
+        debug('MutexStore Redis Error ', err);
+      });
+      //
+    }
+    //
+    global.mutexStore_ = this;
+    //
+  }
+
+  /**
+   * キーの設定 &amp; Mutex状態の取得
+   * @param  {String} key_  - Mutexキー文字列
+   * @param  {MutexStore~mutexSetCallback} callback  - キー設定完了コールバック
+   */
+  set(key_, callback){
+    let key = this.prefix + key_;
+    switch(this.kind){
+      case MutexStoreKind.MEMORY:
+        if(this.memstore[key]){
+          if(callback)callback(null, 0);
+        }else{
+          this.memstore[key] = 1;
+          if(callback)callback(null, 1);
+        }
+        return;
+      case MutexStoreKind.REDIS:
+        this.redisClient.setnx(key, 1, (err, result)=> {
+          if(err){
+            debug_error('MutexStore Redis SETNX Error ', err);
+          }
+          if(result == 0){
+            if(callback)callback(null, 0);
+          }else{
+            this.redisClient.expire(key, this.expire, (err/*, expireresult*/)=> {
+              if(err){
+                debug_error('MutexStore Redis EXPIRE Error ', err);
+              }
+              if(callback)callback(null, 1);
+            });
+          }
+        });
+        return;
+    }
+    if(callback)callback(true);
+  }
+  /**
+   * @callback MutexStore~mutexSetCallback
+   * @param {Object}  err - エラーオブジェクト
+   * @param {Number}  result  - キーがセットできた場合（新規Mutexが作成できた場合) = 1, そうで内場合は = 0
+   */
+
+
+  /**
+   * Mutex解放
+   * @param  {String} key_  - Mutexキー文字列
+   * @param  {MutexStore~mutexReleaseCallback} callback  - キーリリース完了コールバック
+   */
+  release(key_, callback){
+    let key = this.prefix + key_;
+    switch(this.kind){
+      case MutexStoreKind.MEMORY:
+        delete this.memstore[key];
+        if(callback)callback(null);
+        return;
+      case MutexStoreKind.REDIS:
+        this.redisClient.del(key, (err)=> {
+          if(err){
+            debug_error('MutexStore Redis DEL Error ', err);
+          }
+          if(callback)callback(null);
+        });
+        return;
+    }
+    if(callback)callback(true);
+  }
+
+  /**
+   * @callback MutexStore~mutexReleaseCallback
+   * @param {Object}  err - エラーオブジェクト
+   */
+
+}
+
+/**
+ * Mutexストアを初期化し、Mutexの利用を開始する
+ * @param  {MutexOption} option - オプション
+ */
+function InitMutex(option){
+  //
+  option = option || {};
+  //
+  if(option.redis){
+    new MutexStore(MutexStoreKind.REDIS, option.redis, option.prefix, option.expire);
+  }else{
+    new MutexStore(MutexStoreKind.MEMORY, null, option.prefix, null);
+  }
+  //
+}
+/**
+ * @typedef MutexOption
+ * @prop {Object} [redis] - redis接続オプション(https://github.com/NodeRedis/node_redis)
+ * @prop {String} [prefix = globalmutex]  - Mutexキー文字列prefix
+ * @prop {Number} [expire = 60] - expire - キーexpire for redis
+ */
+
+/**
+ * Mutexの強制リリース
+ * @param  {(String|String[])} mutexID - 解放するMutexキー(s)
+ */
+function ResetMutex(mutexID){
+  //
+  if(!global.mutexStore_){
+    debug_error('First need call InitMutex()');
+    return;
+  }
+  //
+  if(typeof mutexID === 'string'){
+    mutexID = [mutexID];
+  }
+  //
+  for(let i in mutexID){
+    global.mutexStore_.release(mutexID[i], ()=>{});
+  }
+  //
+}
+
+//
+class Mutex {
+
+  /**
+   * @constructor
+   * @param  {String} key - Mutexキー文字列
+   * @example
+
+const {InitMutex, Mutex} = require('./global');
+
+//MEMORY STORE (同一プロセス内mutex ~~criticalsection)
+InitMutex({});
+
+//USE REDIS (mutex for multi process, multi servers)
+//InitMutex({prefix: 'mutex:', expire: 60, redis: {host: '127.0.0.1', port: 6379}});
+
+let mutex = new Mutex('LOCK_A');  // create mutex
+mutex.sync(function(){            // lock mutex
+  console.log('START FUNC1');
+  setTimeout(() => {
+    console.log('END FUNC1');
+    mutex.unlock();               // unlock mutex
+  }, 2000);
+});
+
+   */
+  constructor(key){
+    if(!global.mutexStore_){
+      debug_error('First need call InitMutex()');
+    }
+    this.key = key;
+  }
+
+  /**
+   * Mutexロック開始
+   * @param  {function} func  Mutex内で実行する関数
+   */
+  sync(func){
+    if(!global.mutexStore_){
+      return func();
+    }
+    global.mutexStore_.set(this.key, (err, value)=>{
+      if(err){
+        return;
+      }
+      if(value !== 0){
+        func();
+      }else{
+        setImmediate(() => {
+          this.sync(func);
+        });
+      }
+    });
+  }
+
+  /**
+   * Mutexロック解除
+  */
+  unlock(){
+    if(!global.mutexStore_){
+      return;
+    }
+    global.mutexStore_.release(this.key, ()=>{});
+  }
+
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// EXPORTS
+////////////////////////////////////////////////////////////////////////////////
+
+module.exports = {
+  Mutex: Mutex,
+  ResetMutex: ResetMutex,
+  InitMutex: InitMutex,
+};
+
+////////////////////////////////////////////////////////////////////////////////
+// EOF
+////////////////////////////////////////////////////////////////////////////////
+</pre>
+    </article>
+</section>
+
+
+
+
+
+		</div>
+	</div>
+
+	<div class="clearfix"></div>
+
+	
+
+</div>
+</div>
+
+
+    <div class="modal fade" id="searchResults">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Search results</h4>
+          </div>
+          <div class="modal-body"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div>
+
+
+<footer>
+
+
+	<span class="copyright">
+	Tomonori Itou. Copyright © 2017
+	</span>
+
+<span class="jsdoc-message">
+	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a>
+	
+		on Sat May 12th 2018
+	
+	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
+</span>
+</footer>
+
+<script src="scripts/docstrap.lib.js"></script>
+<script src="scripts/toc.js"></script>
+
+    <script type="text/javascript" src="scripts/fulltext-search-ui.js"></script>
+
+
+<script>
+$( function () {
+	$( "[id*='$']" ).each( function () {
+		var $this = $( this );
+
+		$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+	} );
+
+	$( ".tutorial-section pre, .readme-section pre, pre.prettyprint.source" ).each( function () {
+		var $this = $( this );
+
+		var example = $this.find( "code" );
+		exampleText = example.html();
+		var lang = /{@lang (.*?)}/.exec( exampleText );
+		if ( lang && lang[1] ) {
+			exampleText = exampleText.replace( lang[0], "" );
+			example.html( exampleText );
+			lang = lang[1];
+		} else {
+			var langClassMatch = example.parent()[0].className.match(/lang\-(\S+)/);
+			lang = langClassMatch ? langClassMatch[1] : "javascript";
+		}
+
+		if ( lang ) {
+
+			$this
+			.addClass( "sunlight-highlight-" + lang )
+			.addClass( "linenums" )
+			.html( example.html() );
+
+		}
+	} );
+
+	Sunlight.highlightAll( {
+		lineNumbers : true,
+		showMenu : true,
+		enableDoclinks : true
+	} );
+
+	$.catchAnchorLinks( {
+        navbarOffset: 10
+	} );
+	$( "#toc" ).toc( {
+		anchorName  : function ( i, heading, prefix ) {
+			return $( heading ).attr( "id" ) || ( prefix + i );
+		},
+		selectors   : "#toc-content h1,#toc-content h2,#toc-content h3,#toc-content h4",
+		showAndHide : false,
+		smoothScrolling: true
+	} );
+
+	$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+	$( '.dropdown-toggle' ).dropdown();
+
+    $( "table" ).each( function () {
+      var $this = $( this );
+      $this.addClass('table');
+    } );
+
+} );
+</script>
+
+
+
+<!--Navigation and Symbol Display-->
+
+
+<!--Google Analytics-->
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            SearcherDisplay.init();
+        });
+    </script>
+
+
+</body>
+</html>
