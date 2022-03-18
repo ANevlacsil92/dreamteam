@@ -1,0 +1,19 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+
+
+@font-face {
+    font-family: "PT Sans";
+    src: local("PT Sans"), url(/fonts/PTSans-Regular.ttf) format("truetype");
+  }
+
+.card-header{
+    background-color: #fff0!important;
+}
