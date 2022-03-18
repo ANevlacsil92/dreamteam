@@ -7,6 +7,7 @@
         class="btn btn-link"
         data-bs-toggle="modal"
         data-bs-target="#siteNoteModal"
+        hidden
       >
         Impressum
       </button>
