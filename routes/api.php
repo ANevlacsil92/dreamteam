@@ -27,6 +27,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/play-textbook', [ApiController::class, 'getPlayTextbook']);
+    Route::post('/textbook/change-line', [ApiController::class, 'changeLine']);
 });
 
 

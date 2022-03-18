@@ -1,5 +1,53 @@
 <template>
   <div class="container container-main">
+    <div class="row nav-row" id="btn-modal">
+      <!-- Button trigger modal -->
+      <button
+        type="button"
+        class="btn btn-link"
+        data-bs-toggle="modal"
+        data-bs-target="#siteNoteModal"
+      >
+        Impressum
+      </button>
+    </div>
+    <div class="row">
+      <!-- Modal -->
+      <div
+        class="modal fade"
+        id="siteNoteModal"
+        tabindex="-1"
+        aria-labelledby="siteNoteModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-body">
+              <div class="container">
+                <div class="row col-12 mb-3">
+                  <input
+                    type="text"
+                    
+                    v-model="activeLine.linenumber"
+                    v-if="activeLine"
+                    style="width: 100%"
+                    disabled
+                  />
+                </div>
+                <div class="row col-12 mb-3">
+                  <textarea id="textarea" name="textarea" rows="5" cols="500" width="100%"
+                    v-if="activeLine" v-model="activeLine.text"/>
+                  
+                </div>
+                <div class="row col-12">
+                  <button type="button" class="btn btn-light" v-on:click="saveLine()">Speichern</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="row mt-5" v-if="play">
       <div class="col p-0 d-flex justify-content-center text-center">
         <h1>{{ play.name }}</h1>
@@ -16,7 +64,11 @@
         </select>
       </div>
     </div>
-    <div class="row mt-5 pr-2 pl-2" v-for="scene in scenes" v-bind:key="scene.id">
+    <div
+      class="row mt-5 pr-2 pl-2"
+      v-for="scene in scenes"
+      v-bind:key="scene.id"
+    >
       <div class="container">
         <div class="row">
           <h2>{{ scene.title }}</h2>
@@ -34,6 +86,7 @@
           class="row"
           v-for="line in scene.play_textbook"
           v-bind:key="line.id"
+          v-on:dblclick="openmodal(line)"
         >
           <div class="container m-0 p-0">
             <div
@@ -77,9 +130,33 @@ export default {
       scenes: [],
       roles: [],
       selectedRole: null,
+      activeLine: null,
     };
   },
   methods: {
+    saveLine: function(){
+      let _this = this;
+
+      $.ajax({
+        url: "/api/textbook/change-line",
+        method: "POST",
+        headers: {
+          Authorization: "Bearer 1|YCMsFRtzv9xDEzZ92UsaaZCBMeLtSyOoDPfdH1sO",
+        },
+        data: {
+          line: _this.activeLine,
+        },
+        success: function (data) {
+          
+          $("#siteNoteModal").modal("hide");
+        },
+      });
+    },
+    openmodal: function (line) {
+      console.log(document.getElementById("btn-modal"));
+      this.activeLine = line;
+      $("#siteNoteModal").modal("show");
+    },
     pad: function (num, size) {
       num = num.toString();
       while (num.length < size) num = "0" + num;
