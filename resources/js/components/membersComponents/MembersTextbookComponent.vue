@@ -16,7 +16,7 @@
         </select>
       </div>
     </div>
-    <div class="row mt-5" v-for="scene in scenes" v-bind:key="scene.id">
+    <div class="row mt-5 pr-2 pl-2" v-for="scene in scenes" v-bind:key="scene.id">
       <div class="container">
         <div class="row">
           <h2>{{ scene.title }}</h2>
