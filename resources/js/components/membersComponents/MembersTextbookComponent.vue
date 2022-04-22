@@ -26,22 +26,57 @@
             <div class="modal-body">
               <div class="container">
                 <div class="row col-12 mb-3">
-                  <input
-                    type="text"
-                    
-                    v-model="activeLine.linenumber"
-                    v-if="activeLine"
-                    style="width: 100%"
-                    disabled
-                  />
+                  <div class="col-md-2">
+                    <p>Zeile:</p>
+                  </div>
+                  <div class="col-md-10">
+                    <input
+                      type="text"
+                      v-model="activeLine.linenumber"
+                      v-if="activeLine"
+                      style="width: 100%"
+                      disabled
+                    />
+                  </div>
                 </div>
                 <div class="row col-12 mb-3">
-                  <textarea id="textarea" name="textarea" rows="5" cols="500" width="100%"
-                    v-if="activeLine" v-model="activeLine.text"/>
-                  
+                  <div class="col-md-2">
+                    <p>Text:</p>
+                  </div>
+                  <div class="col-md-10">
+                    <textarea
+                      id="textarea"
+                      class="form-control"
+                      name="textarea"
+                      rows="5"
+                      v-if="activeLine"
+                      v-model="activeLine.text"
+                    />
+                  </div>
                 </div>
-                <div class="row col-12">
-                  <button type="button" class="btn btn-light" v-on:click="saveLine()">Speichern</button>
+                <div class="row col-12 mb-3">
+                  <div class="col-md-2">
+                    <p>Nachfolgende<br/>Regieanweisung:</p>
+                  </div>
+                  <div class="col-md-10">
+                    <textarea
+                      id="textarea"
+                      class="form-control"
+                      name="textarea"
+                      rows="5"
+                      v-if="activeLine"
+                      v-model="activeLine.following_stage_direction"
+                    />
+                  </div>
+                </div>
+                <div class="row col-1">
+                  <button
+                    type="button"
+                    class="btn btn-light"
+                    v-on:click="saveLine()"
+                  >
+                    Speichern
+                  </button>
                 </div>
               </div>
             </div>
@@ -135,7 +170,7 @@ export default {
     };
   },
   methods: {
-    saveLine: function(){
+    saveLine: function () {
       let _this = this;
 
       $.ajax({
@@ -148,7 +183,6 @@ export default {
           line: _this.activeLine,
         },
         success: function (data) {
-          
           $("#siteNoteModal").modal("hide");
         },
       });
@@ -217,5 +251,9 @@ p {
 
 .selected-text {
   background-color: #fff01f;
+}
+
+.modal-dialog {
+  max-width: 1000px;
 }
 </style>
