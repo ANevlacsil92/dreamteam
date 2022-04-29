@@ -14,6 +14,10 @@ class PlayScenes extends Model
    public function playTextbook(){
       return $this->hasMany(PlayTextbook::class);
    }
+
+   public function sections(){
+      return $this->hasMany(PlaySceneSections::class, "scene_id");
+   }
    
     
 }

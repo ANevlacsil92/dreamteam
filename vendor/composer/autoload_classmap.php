@@ -27,6 +27,8 @@ return array(
     'App\\Http\\Middleware\\TrustProxies' => $baseDir . '/app/Http/Middleware/TrustProxies.php',
     'App\\Http\\Middleware\\VerifyCsrfToken' => $baseDir . '/app/Http/Middleware/VerifyCsrfToken.php',
     'App\\Models\\Play' => $baseDir . '/app/Models/Play.php',
+    'App\\Models\\PlayRole' => $baseDir . '/app/Models/PlayRole.php',
+    'App\\Models\\PlaySceneSections' => $baseDir . '/app/Models/PlaySceneSections.php',
     'App\\Models\\PlayScenes' => $baseDir . '/app/Models/PlayScenes.php',
     'App\\Models\\PlayTextbook' => $baseDir . '/app/Models/PlayTextbook.php',
     'App\\Models\\User' => $baseDir . '/app/Models/User.php',

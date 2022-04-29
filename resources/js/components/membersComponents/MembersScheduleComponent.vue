@@ -27,45 +27,59 @@
               <div class="container">
                 <div class="row col-12 mb-3">
                   <div class="col-md-2">
-                    <p>Zeile:</p>
+                    <p>Datum:</p>
                   </div>
                   <div class="col-md-10">
                     <input
-                      type="text"
-                      v-model="activeLine.linenumber"
-                      v-if="activeLine"
+                      type="date"
+                      v-model="activeAppointment.practice_date"
+                      v-if="activeAppointment"
                       style="width: 100%"
-                      disabled
                     />
                   </div>
                 </div>
                 <div class="row col-12 mb-3">
                   <div class="col-md-2">
-                    <p>Text:</p>
+                    <p>Start:</p>
                   </div>
                   <div class="col-md-10">
-                    <textarea
-                      id="textarea"
+                    <input
+                      id="text"
                       class="form-control"
                       name="textarea"
                       rows="5"
-                      v-if="activeLine"
-                      v-model="activeLine.text"
+                      v-if="activeAppointment"
+                      v-model="activeAppointment.start_line"
                     />
                   </div>
                 </div>
                 <div class="row col-12 mb-3">
                   <div class="col-md-2">
-                    <p>Nachfolgende<br/>Regieanweisung:</p>
+                    <p>Ende:</p>
                   </div>
                   <div class="col-md-10">
-                    <textarea
-                      id="textarea"
+                    <input
+                      id="text"
                       class="form-control"
                       name="textarea"
                       rows="5"
-                      v-if="activeLine"
-                      v-model="activeLine.following_stage_direction"
+                      v-if="activeAppointment"
+                      v-model="activeAppointment.end_line"
+                    />
+                  </div>
+                </div>
+                <div class="row col-12 mb-3">
+                  <div class="col-md-2">
+                    <p>Kommentar:</p>
+                  </div>
+                  <div class="col-md-10">
+                    <input
+                      id="text"
+                      class="form-control"
+                      name="textarea"
+                      rows="5"
+                      v-if="activeAppointment"
+                      v-model="activeAppointment.comment"
                     />
                   </div>
                 </div>
@@ -73,7 +87,7 @@
                   <button
                     type="button"
                     class="btn btn-light"
-                    v-on:click="saveLine()"
+                    v-on:click="saveAppointment()"
                   >
                     Speichern
                   </button>
@@ -86,71 +100,36 @@
     </div>
     <div class="row mt-5" v-if="play">
       <div class="col p-0 d-flex justify-content-center text-center">
-        <h1>{{ play.name }} - Textbuch</h1>
+        <h1>{{ play.name }} - Probenplan</h1>
       </div>
     </div>
-    <div class="row mt-2" v-if="play">
-      <div class="col-2">Markiere Text für:</div>
-      <div class="col-10">
-        <select v-model="selectedRole">
-          <option value=""></option>
-          <option v-for="role in play.roles" v-bind:key="role.id">
-            {{ role.name }}
-          </option>
-        </select>
-      </div>
+    <div class="row mt-5 mb-4">
+      <button
+        type="button"
+        class="btn btn-light"
+        data-bs-toggle="modal"
+        data-bs-target="#siteNoteModal"
+        v-on:click="addNewAppointment()"
+      >
+      Neuen Termin Hinzufügen
+      </button>
     </div>
-    <div
-      class="row mt-5 pr-2 pl-2"
-      v-for="scene in scenes"
-      v-bind:key="scene.id"
-    >
+    <div class="row mt-2">
       <div class="container">
         <div class="row">
-          <h2>{{ scene.title }}</h2>
+          <div class="col-2"><b>Datum</b></div>
+          <div class="col-2"><b>Zeilen</b></div>
+          <div class="col-6"><b>Rollen</b></div>
+          <div class="col-2"><b>Anmerkung</b></div>
         </div>
-
-        <div class="row">
-          <h3>{{ scene.subtitle }}</h3>
-        </div>
-
-        <div class="row mt-3 mb-2 d-flex justify-content-center">
-          <p>{{ scene.description }}</p>
-        </div>
-
-        <div
-          class="row"
-          v-for="line in scene.play_textbook"
-          v-bind:key="line.id"
-          v-on:dblclick="openmodal(line)"
-        >
-          <div class="container m-0 p-0">
-            <div
-              :class="
-                selectedRole != '' && line.said_by.includes(selectedRole)
-                  ? 'row selected-text'
-                  : 'row'
-              "
-            >
-              <div class="col-md-3">
-                <b
-                  ><span class="line-number">{{
-                    pad(line.linenumber, 4)
-                  }}</span>
-                  <span class="said-by">{{ line.said_by }}:</span></b
-                >
-              </div>
-              <div class="col-md-9">
-                <span class="said-by">{{ line.text }}</span>
-              </div>
-            </div>
-            <div
-              class="row d-flex justify-content-center mt-3 mb-3 p-0"
-              v-if="line.following_stage_direction"
-            >
-              <b>{{ line.following_stage_direction }}</b>
-            </div>
+        <div class="row" v-for="rehearsal in schedule" v-bind:key="rehearsal.id" 
+          v-on:dblclick="openmodal(rehearsal)">
+          <div class="col-2">{{ moment(rehearsal.practice_date,"YYYY-MM-DD").format("DD.MM.YYYY") }}</div>
+          <div class="col-2">{{ (rehearsal.start_line && rehearsal.end_line) ? 
+            rehearsal.start_line + "-" + rehearsal.end_line : "tbd"}}
           </div>
+          <div class="col-6">{{ (rehearsal.participants) ? rehearsal.participants : "tbd" }}</div>
+          <div class="col-2">{{ rehearsal.comment }}</div>
         </div>
       </div>
     </div>
@@ -163,53 +142,61 @@ export default {
   data() {
     return {
       play: null,
-      scenes: [],
+      schedule: [],
       roles: [],
-      selectedRole: null,
-      activeLine: null,
+      activeAppointment: null,
+      activeAppointmentIsNew: false,
     };
   },
   methods: {
-    saveLine: function () {
+    addNewAppointment: function(){
+      this.activeAppointment = {
+        play_id: this.play.id,
+        practice_date: null,
+        start_line: null,
+        end_line: null,
+        comment: null,
+      };
+      this.activeAppointmentIsNew = true;
+    },
+    saveAppointment: function () {
       let _this = this;
 
       $.ajax({
-        url: "/api/textbook/change-line",
+        url: "/api/schedule/change-appointment",
         method: "POST",
         headers: {
           Authorization: "Bearer 1|YCMsFRtzv9xDEzZ92UsaaZCBMeLtSyOoDPfdH1sO",
         },
         data: {
-          line: _this.activeLine,
+          appointment: _this.activeAppointment,
+          isNew: _this.activeAppointmentIsNew,
         },
         success: function (data) {
+          _this.schedule = data;
           $("#siteNoteModal").modal("hide");
         },
       });
     },
-    openmodal: function (line) {
-      console.log(document.getElementById("btn-modal"));
-      this.activeLine = line;
+    openmodal: function (appointment) {
+      console.log(document.getElementById("btn-modal"));  
+      this.activeAppointmentIsNew = false;
+      this.activeAppointment = appointment;
       $("#siteNoteModal").modal("show");
     },
-    pad: function (num, size) {
-      num = num.toString();
-      while (num.length < size) num = "0" + num;
-      return num;
-    },
-    retrieveTextBook: function () {
+    retrieveSchedule: function () {
       let _this = this;
 
       $.ajax({
-        url: "/api/play-textbook",
+        url: "/api/play-schedule",
         headers: {
           Authorization: "Bearer 1|YCMsFRtzv9xDEzZ92UsaaZCBMeLtSyOoDPfdH1sO",
         },
         data: {
           playId: _this.params.playId,
         },
-        success: function (data) {
-          _this.scenes = data;
+        success: function (data) { 
+          _this.schedule = data;
         },
       });
     },
@@ -229,7 +216,7 @@ export default {
   },
   mounted() {
     this.retrievePlayTitle();
-    this.retrieveTextBook();
+    this.retrieveSchedule();
   },
 };
 </script>

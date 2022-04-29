@@ -12,6 +12,20 @@
         </a>
       </div>
     </div>
+    <div class="row">
+      <div class="col p-0 d-flex">
+        <a :href="'/members/schedule/' + params.playId">
+          <h2>Zum Probenplan</h2>
+        </a>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col p-0 d-flex">
+        <a :href="'https://e.pcloud.link/publink/show?code=7mTotalK#folder=2403953515&tpl=publicfoldergrid'">
+          <h2>Zu den Videos</h2>
+        </a>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -47,7 +61,11 @@ export default {
 
 <style scoped>
 h1,
-h2 {
+h3 {
   color: #f39200 !important;
+}
+
+a {
+  color: black
 }
 </style>

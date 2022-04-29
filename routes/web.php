@@ -40,6 +40,18 @@ Route::middleware(['auth'])->group(function () {
         $params->playId = $request->playId;
         return view('home')->with(['component' => 'members-textbook-component','params' => $params]);
     });
+
+    Route::get('/members/videos/{playId}', function (Request $request) {
+        $params = new stdClass();
+        $params->playId = $request->playId;
+        return view('home')->with(['component' => 'members-video-component','params' => $params]);
+    });
+
+    Route::get('/members/schedule/{playId}', function (Request $request) {
+        $params = new stdClass();
+        $params->playId = $request->playId;
+        return view('home')->with(['component' => 'members-schedule-component','params' => $params]);
+    });
     
 });
 

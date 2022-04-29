@@ -5,8 +5,12 @@
  */
 
 require('./bootstrap');
+import moment from 'moment'
+import Vue from 'vue';
 
 window.Vue = require('vue').default;
+Vue.prototype.moment = moment;
+
 
 /**
  * The following block of code may be used to automatically register your
@@ -24,6 +28,8 @@ Vue.component('home-component',  require('./components/welcomeComponents/HomeCom
 Vue.component('members-home-component',  require('./components/membersComponents/MembersHomeComponent.vue').default);
 Vue.component('members-play-download-component',  require('./components/membersComponents/MembersPlayDownloadComponent.vue').default);
 Vue.component('members-textbook-component',  require('./components/membersComponents/MembersTextbookComponent.vue').default);
+Vue.component('members-video-component',  require('./components/membersComponents/MembersVideoComponent.vue').default);
+Vue.component('members-schedule-component',  require('./components/membersComponents/MembersScheduleComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
