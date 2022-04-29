@@ -31,6 +31,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/play-schedule', [ApiController::class, 'getSchedule']);
     Route::post('/textbook/change-line', [ApiController::class, 'changeLine']);
     Route::post('/schedule/change-appointment', [ApiController::class, 'changeAppointment']);
+    Route::delete('/schedule/change-appointment', [ApiController::class, 'deleteAppointment']);
 });
 
 

@@ -17,8 +17,8 @@ class CreatePlayScheduleTable extends Migration
             $table->id();
             $table->integer("play_id");
             $table->date("practice_date");
-            $table->integer("start_line");
-            $table->integer("end_line");
+            $table->integer("start_line")->nullable();
+            $table->integer("end_line")->nullable();
             $table->string("comment")->nullable();
             $table->timestamps();
             $table->softDeletes();

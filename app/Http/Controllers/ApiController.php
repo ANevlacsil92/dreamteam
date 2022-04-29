@@ -62,7 +62,7 @@ class ApiController extends Controller
 
     public function changeAppointment(Request $request)
     {
-        Log::debug($request);
+        //Log::debug($request);
         if (filter_var($request->isNew, FILTER_VALIDATE_BOOLEAN)){
             $schedule = new PlaySchedule();
             $schedule->play_id = $request->appointment["play_id"];
@@ -70,13 +70,18 @@ class ApiController extends Controller
             $schedule = PlaySchedule::find($request->appointment["id"]);
         }
         
-        Log::debug($schedule);
-
         $schedule->practice_date = $request->appointment["practice_date"];
         $schedule->start_line = $request->appointment["start_line"];
         $schedule->end_line = $request->appointment["end_line"];
         $schedule->comment = $request->appointment["comment"];
         $schedule->save();
         return response(DB::select('call sp_get_participants_by_schedule(' . $request->appointment["play_id"] .')'));
+    }
+
+    public function deleteAppointment(Request $request)
+    {
+        $schedule = PlaySchedule::find(intval($request->id));   
+        $schedule->delete();
+        return response(DB::select('call sp_get_participants_by_schedule(' . $request->play_id .')'));
     }
 }
