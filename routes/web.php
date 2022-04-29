@@ -62,8 +62,8 @@ Route::get('/tokens/create', function (Request $request) {
     return ['token' => $token->plainTextToken];
 });
 
-/*
+
 Route::get("/runmig", function() {
     Artisan::call('migrate');
 
-});*/
+});
