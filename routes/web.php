@@ -76,3 +76,7 @@ Route::get("/runmig", function() {
     Artisan::call('migrate');
 
 });
+Route::get("/runstl", function() {
+    Artisan::call('storage:link');
+
+});
