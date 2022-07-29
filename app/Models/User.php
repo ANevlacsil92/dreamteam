@@ -46,5 +46,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    
+
+    public function extendedUserProperty()
+    {
+        return $this->hasOne(ExtendedUserProperty::class, "user_id");
+    }
 }

@@ -30,6 +30,7 @@ return array(
     'App\\Models\\PlayRole' => $baseDir . '/app/Models/PlayRole.php',
     'App\\Models\\PlaySceneSections' => $baseDir . '/app/Models/PlaySceneSections.php',
     'App\\Models\\PlayScenes' => $baseDir . '/app/Models/PlayScenes.php',
+    'App\\Models\\PlaySchedule' => $baseDir . '/app/Models/PlaySchedule.php',
     'App\\Models\\PlayTextbook' => $baseDir . '/app/Models/PlayTextbook.php',
     'App\\Models\\User' => $baseDir . '/app/Models/User.php',
     'App\\Providers\\AppServiceProvider' => $baseDir . '/app/Providers/AppServiceProvider.php',

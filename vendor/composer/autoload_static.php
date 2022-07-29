@@ -555,6 +555,7 @@ class ComposerStaticInit9323a4ac7d9128a6a062e86492dc6713
         'App\\Models\\PlayRole' => __DIR__ . '/../..' . '/app/Models/PlayRole.php',
         'App\\Models\\PlaySceneSections' => __DIR__ . '/../..' . '/app/Models/PlaySceneSections.php',
         'App\\Models\\PlayScenes' => __DIR__ . '/../..' . '/app/Models/PlayScenes.php',
+        'App\\Models\\PlaySchedule' => __DIR__ . '/../..' . '/app/Models/PlaySchedule.php',
         'App\\Models\\PlayTextbook' => __DIR__ . '/../..' . '/app/Models/PlayTextbook.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',

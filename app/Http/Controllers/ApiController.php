@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ExtendedUserProperty;
 use App\Models\Play;
 use App\Models\PlayScenes;
 use App\Models\PlaySchedule;
 use App\Models\PlayTextbook;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class ApiController extends Controller
 {
@@ -83,5 +86,35 @@ class ApiController extends Controller
         $schedule = PlaySchedule::find(intval($request->id));   
         $schedule->delete();
         return response(DB::select('call sp_get_participants_by_schedule(' . $request->play_id .')'));
+    }
+
+    public function getExtendedUsers(Request $request)
+    {
+        $users = User::with('extendedUserProperty')->get();
+        return $users;
+    }
+
+    public function saveExtendedUserData(Request $request)
+    {
+        $user = User::find($request->id);
+        $property = ExtendedUserProperty::where('user_id', $user->id)->first();
+
+        $file = $request->file("file");
+        if( $file != ""){
+
+            $filename = 'imgs/profilepictures/' . str_replace(" ", "-", strToLower($user->name)) . "." . explode("/", $file->getClientMimeType())[1];
+            
+            if (Storage::exists($file)) {
+                Storage::delete($file);
+            }
+            
+            $file->storeAs("public/",  $filename);
+            $property->photo_url = $filename;
+        }
+
+        $property->about_me = $request->description;
+        $property->save();
+
+        return response("OK");
     }
 }

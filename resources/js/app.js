@@ -30,6 +30,7 @@ Vue.component('members-play-download-component',  require('./components/membersC
 Vue.component('members-textbook-component',  require('./components/membersComponents/MembersTextbookComponent.vue').default);
 Vue.component('members-video-component',  require('./components/membersComponents/MembersVideoComponent.vue').default);
 Vue.component('members-schedule-component',  require('./components/membersComponents/MembersScheduleComponent.vue').default);
+Vue.component('members-user-settings-component',  require('./components/membersComponents/MembersUserSettingsComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

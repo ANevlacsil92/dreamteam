@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
@@ -29,6 +30,13 @@ Route::middleware(['auth'])->group(function () {
         return view('home')->with(['component' => 'members-home-component']);
     });
 
+    Route::get('/members/settings', function () {
+        
+        $params = new stdClass();
+        $params->user = User::with('extendedUserProperty')->find(Auth::id());
+        return view('home')->with(['component' => 'members-user-settings-component', 'params' => $params]);
+    });
+
     Route::get('/members/play-downloads/{playId}', function (Request $request) {
         $params = new stdClass();
         $params->playId = $request->playId;
@@ -52,6 +60,7 @@ Route::middleware(['auth'])->group(function () {
         $params->playId = $request->playId;
         return view('home')->with(['component' => 'members-schedule-component','params' => $params]);
     });
+
     
 });
 
