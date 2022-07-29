@@ -49,7 +49,8 @@
           Änderungen Speichern
         </button>
       </div>
-    </div><div class="row mt-3" v-if="showSuccessMsg">
+    </div>
+    <div class="row mt-3" v-if="showSuccessMsg">
       <div class="col-md-12">
         <span class="text-success">Daten wurden gespeichert!</span>
       </div>
@@ -81,7 +82,10 @@ export default {
       var fd = new FormData(form);
       // append id to formdata
       fd.append("id", this.user.id);
-      fd.append("description", this.userDisplay.extended_user_property.about_me);
+      fd.append(
+        "description",
+        this.userDisplay.extended_user_property.about_me
+      );
 
       $.ajax({
         url: "/api/member-settings/save-data",
@@ -110,7 +114,10 @@ export default {
   },
   mounted() {
     this.userDisplay = this.params.user;
-    this.userDisplay.extended_user_property.photo_url = '/storage/' + this.userDisplay.extended_user_property.photo_url;
+    if (this.userDisplay.extended_user_property.photo_url != null) {
+      this.userDisplay.extended_user_property.photo_url =
+        "/storage/" + this.userDisplay.extended_user_property.photo_url;
+    }
     console.log("mounted");
   },
 };
