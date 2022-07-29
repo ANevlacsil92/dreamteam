@@ -78,6 +78,10 @@
                         </li>
 
                         <li class="nav-item">
+                            <a class="nav-link" href="/members/settings" style="color: #f39200!important; font-weight:bold">Einstellungen</a>
+                        </li>
+
+                        <li class="nav-item">
                             <a class="nav-link" href="{{ route('logout') }}" style="color: #f39200!important; font-weight:bold" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                 {{ __('Logout') }} {{ Auth::user()->name }}
