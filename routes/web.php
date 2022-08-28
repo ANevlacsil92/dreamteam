@@ -24,6 +24,10 @@ Route::get('/', function () {
     return view('home')->with(['component' => 'home-component']);
 });
 
+Route::get('/das-team', function () {
+    return view('home')->with(['component' => 'team-component']);
+});
+
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/members', function () {

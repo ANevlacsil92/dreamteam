@@ -40,5 +40,5 @@ Route::get('/play-schedule-test', [ApiController::class, 'getSchedule']);
 
 Route::get('/plays/{id?}', [ApiController::class, 'getPlays']);
 
-Route::get('/extended-users', [ApiController::class, 'getExtendedUsers']);
+Route::get('/the-team', [ApiController::class, 'getExtendedUsers']);
 Route::post('/member-settings/save-data', [ApiController::class, 'saveExtendedUserData']);

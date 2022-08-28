@@ -23,7 +23,10 @@ Vue.prototype.moment = moment;
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('home-component',  require('./components/welcomeComponents/HomeComponent.vue').default);
+Vue.component('home-component',  require('./components/publicComponents/HomeComponent.vue').default);
+Vue.component('team-component',  require('./components/publicComponents/TeamComponent.vue').default);
+Vue.component('team-member-photo-left-component',  require('./components/publicComponents/TeamMemberPhotoLeftComponent.vue').default);
+Vue.component('team-member-photo-right-component',  require('./components/publicComponents/TeamMemberPhotoRightComponent.vue').default);
 
 Vue.component('members-home-component',  require('./components/membersComponents/MembersHomeComponent.vue').default);
 Vue.component('members-play-download-component',  require('./components/membersComponents/MembersPlayDownloadComponent.vue').default);

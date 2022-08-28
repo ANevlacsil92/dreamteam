@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use stdClass;
 
 class ApiController extends Controller
 {
@@ -91,7 +92,19 @@ class ApiController extends Controller
     public function getExtendedUsers(Request $request)
     {
         $users = User::with('extendedUserProperty')->get();
-        return $users;
+
+        $ret = [];
+
+        foreach($users as $user){
+            $u = new stdClass();
+            $u->id = $user->id;
+            $u->name = $user->name;
+            $u->about_me = $user->extendedUserProperty->about_me;
+            $u->photo_url = $user->extendedUserProperty->photo_url;
+            array_push($ret, $u);
+        }
+
+        return $ret;
     }
 
     public function saveExtendedUserData(Request $request)
