@@ -16,9 +16,7 @@
       <div
         class="modal fade"
         id="adventModal"
-        tabindex="-1"
         aria-labelledby="adventModalLabel"
-        aria-hidden="true" 
         v-if="activeDoor"
       >
         <div class="modal-dialog" :class="{'modal-dialog-landscape': activeDoor.is_landscape}">
@@ -65,7 +63,10 @@ export default {
   },
   methods: {},
   mounted() {
+    
+      this.activeDoor = "test",
       $("#adventModal").modal("show");
+      $('#adventModal').focus();
   },
 };
 </script>
