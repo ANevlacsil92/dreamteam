@@ -49,12 +49,42 @@ export default {
   width: 25%;
 }
 
+@media screen and (max-width: 1400px) {
+  .container-calendar {
+    width: 35%;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .container-calendar {
+    width: 40%;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .container-calendar {
+    width: 45%;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .container-calendar {
+    width: 50%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .container-calendar {
+    width: 55%;
+  }
+}
+
 @media screen and (max-width: 768px) {
   .container-calendar {
     width: 100%;
   }
 }
-
+  
 .advent-window {
   background-color: #ffffffB0;
   color: #f39200;
