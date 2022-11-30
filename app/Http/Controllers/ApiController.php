@@ -130,4 +130,9 @@ class ApiController extends Controller
 
         return response("OK");
     }
+
+    public function getAdventCalendar(Request $request)
+    {
+       return DB::select('SELECT * FROM vw_advent_calendar');
+    }
 }

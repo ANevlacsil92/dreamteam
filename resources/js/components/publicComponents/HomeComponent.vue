@@ -1,40 +1,72 @@
 <template>
   <div class="container-fluid container-main">
-    <div class="row mt-5">
+    <div class="row mt-3">
       <div class="col p-0 d-flex justify-content-center text-center">
         <h1>Willkommen auf unserer Theaterhomepage!</h1>
       </div>
     </div>
-    <a href="https://www.theatercenterforum.com/der-muss-es-sein-reservierung/">
-      <div class="row mt-5 mb-5">
+    
+      <div class="row mt-3 mb-3">
         <div class="col d-flex justify-content-center text-center">
-          <h3>Hier geht es zur Kartenreservierung</h3>
+          <h3>Danke fürs Zuschauen - Wir kommen wieder! Infos folgen</h3>
         </div>
       </div>
-    </a>
+      <div class="row">
+      <!-- Modal -->
+      <div
+        class="modal fade"
+        id="adventModal"
+        tabindex="-1"
+        aria-labelledby="adventModalLabel"
+        aria-hidden="true" 
+        v-if="activeDoor"
+      >
+        <div class="modal-dialog" :class="{'modal-dialog-landscape': activeDoor.is_landscape}">
+          <div class="modal-content">
+            <div class="modal-body"
+              style="background-color: #fce8cb;">
+              <div class="container">
+                <div class="row">
+                  <img
+                    :src="'http://localhost/images/ac/' + activeDoor.image"
+                    class="img-fluid"
+                  >
+                </div>
+                <div class="row mt-2">
+                  <div v-html="activeDoor.text"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <advent-calendar-component></advent-calendar-component>
     <a href="https://www.dermussessein.at">
-      <div class="row mt-5 d-flex justify-content-center">
+      <!--<div class="row mt-5 d-flex justify-content-center">
         <div class="col-8 col-md-3 d-flex justify-content-center">
           <img src="/images/plays/dermussessein.png" width="80%" />
         </div>
-      </div>
-      <div class="row mt-5">
-        <div class="col d-flex justify-content-center text-center">
-          <h3>Infos zu unserem derzeitigen Stück gibt es hier</h3>
-        </div>
-      </div>
+      </div>-->
+      
     </a>
   </div>
 </template>
 
 <script>
+import AdventCalendarComponent from './AdventCalendarComponent.vue';
 export default {
+  components: { AdventCalendarComponent },
   props: ["user"],
   data() {
-    return {};
+    return {
+      activeDoor:null,
+    };
   },
   methods: {},
-  mounted() {},
+  mounted() {
+      $("#adventModal").modal("show");
+  },
 };
 </script>
 
@@ -45,5 +77,12 @@ h3 {
 }
 a:hover {
   text-decoration: none;
+}
+.modal-dialog {
+  max-width: 400px;
+}
+
+.modal-dialog-landscape {
+  max-width: 600px!important;
 }
 </style>

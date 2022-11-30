@@ -24,6 +24,7 @@ Vue.prototype.moment = moment;
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('home-component',  require('./components/publicComponents/HomeComponent.vue').default);
+Vue.component('advent-calendar-component',  require('./components/publicComponents/AdventCalendarComponent.vue').default);
 Vue.component('team-component',  require('./components/publicComponents/TeamComponent.vue').default);
 Vue.component('team-member-photo-left-component',  require('./components/publicComponents/TeamMemberPhotoLeftComponent.vue').default);
 Vue.component('team-member-photo-right-component',  require('./components/publicComponents/TeamMemberPhotoRightComponent.vue').default);
