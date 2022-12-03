@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ApiController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
@@ -64,6 +65,14 @@ Route::middleware(['auth'])->group(function () {
         $params->playId = $request->playId;
         return view('home')->with(['component' => 'members-schedule-component','params' => $params]);
     });
+
+    
+    Route::get('/api/play-textbook', [ApiController::class, 'getPlayTextbook']);
+    Route::get('/api/play-sections', [ApiController::class, 'getSections']);
+    Route::get('/api/play-schedule', [ApiController::class, 'getSchedule']);
+    Route::post('/api/textbook/change-line', [ApiController::class, 'changeLine']);
+    Route::post('/api/schedule/change-appointment', [ApiController::class, 'changeAppointment']);
+    Route::delete('/api/schedule/change-appointment', [ApiController::class, 'deleteAppointment']);
 
     
 });

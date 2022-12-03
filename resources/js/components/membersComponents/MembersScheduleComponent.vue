@@ -181,7 +181,6 @@ export default {
           url: "/api/schedule/change-appointment",
           method: "DELETE",
           headers: {
-            Authorization: "Bearer 1|YCMsFRtzv9xDEzZ92UsaaZCBMeLtSyOoDPfdH1sO",
           },
           data: {
             id: id,
@@ -212,7 +211,6 @@ export default {
         url: "/api/schedule/change-appointment",
         method: "POST",
         headers: {
-          Authorization: "Bearer 1|YCMsFRtzv9xDEzZ92UsaaZCBMeLtSyOoDPfdH1sO",
         },
         data: {
           appointment: _this.activeAppointment,
@@ -236,7 +234,6 @@ export default {
       $.ajax({
         url: "/api/play-schedule",
         headers: {
-          Authorization: "Bearer 1|YCMsFRtzv9xDEzZ92UsaaZCBMeLtSyOoDPfdH1sO",
         },
         data: {
           playId: _this.params.playId,

@@ -34,7 +34,6 @@ export default {
         url: "/api/textbook/change-line",
         method: "POST",
         headers: {
-          Authorization: "Bearer 1|YCMsFRtzv9xDEzZ92UsaaZCBMeLtSyOoDPfdH1sO",
         },
         data: {
           line: _this.activeLine,
@@ -60,7 +59,6 @@ export default {
       $.ajax({
         url: "/api/play-textbook",
         headers: {
-          Authorization: "Bearer 1|YCMsFRtzv9xDEzZ92UsaaZCBMeLtSyOoDPfdH1sO",
         },
         data: {
           playId: 1,

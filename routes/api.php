@@ -26,12 +26,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::middleware(['auth:sanctum'])->group(function () {
-    Route::get('/play-textbook', [ApiController::class, 'getPlayTextbook']);
-    Route::get('/play-sections', [ApiController::class, 'getSections']);
-    Route::get('/play-schedule', [ApiController::class, 'getSchedule']);
-    Route::post('/textbook/change-line', [ApiController::class, 'changeLine']);
-    Route::post('/schedule/change-appointment', [ApiController::class, 'changeAppointment']);
-    Route::delete('/schedule/change-appointment', [ApiController::class, 'deleteAppointment']);
 });
 
 
