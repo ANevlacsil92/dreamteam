@@ -25,6 +25,10 @@ Route::get('/', function () {
     return view('home')->with(['component' => 'home-component']);
 });
 
+Route::get('/christmas-announcement', function () {
+    return view('home')->with(['component' => 'announcement-component']);
+});
+
 Route::get('/das-team', function () {
     return view('home')->with(['component' => 'team-component']);
 });

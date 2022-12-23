@@ -33,6 +33,9 @@
                 <div class="row mt-2">
                   <div v-html="activeDoor.text"></div>
                 </div>
+                <div class="row mt-3">
+                  <button class="btn btn-primary w-100" @click="redirect()">Weihnachtsüberraschung</button>
+                </div>
               </div>
             </div>
           </div>
@@ -61,7 +64,11 @@ export default {
       activeDoor:null,
     };
   },
-  methods: {},
+  methods: {
+    redirect() {
+      window.location.href = "/christmas-announcement";
+    },
+  },
   mounted() {
     
       this.activeDoor = "test",
@@ -79,6 +86,13 @@ h3 {
 a:hover {
   text-decoration: none;
 }
+
+.btn{
+  background-color: #f39200 !important;
+  color: white !important;
+  border: none !important;
+}
+
 .modal-dialog {
   max-width: 400px;
 }
