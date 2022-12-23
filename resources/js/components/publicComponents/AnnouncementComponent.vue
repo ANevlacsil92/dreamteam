@@ -12,7 +12,7 @@
     </div>
     <div class="row mt-2">
       <div class="col d-flex justify-content-center text-center">
-        <h2>Zu sehen am 28. und 29.04.2023, im Stadtsaal Purkersdorf.</h2>
+        <h2>Zu sehen am 28. und 29. April 2023, im Stadtsaal Purkersdorf.</h2>
       </div>
     </div>
     <a href="https://www.dermussessein.at">
