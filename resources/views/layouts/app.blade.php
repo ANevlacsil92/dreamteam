@@ -11,11 +11,11 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <script type="text/javascript" src="{{asset('js/app.js')}}" defer></script>
+    <script type="text/javascript" src="{{mix('js/app.js')}}" defer></script>
     <!-- Bootstrap CSS CDN 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     --><!-- Our Custom CSS -->
-    <link rel="stylesheet" href="{{asset('css/app.css')}}">
+    <link rel="stylesheet" href="{{mix('css/app.css')}}">
 
 
     <!-- jQuery CDN - Slim version (=without AJAX) -->
