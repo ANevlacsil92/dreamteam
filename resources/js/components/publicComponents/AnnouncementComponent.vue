@@ -2,7 +2,7 @@
   <div class="container-fluid container-main">
     <div class="row mt-5">
       <div class="col p-0 d-flex justify-content-center text-center">
-        <h1><a href="/tickets"><u>Tickets Hier erhältlich!</u></a></h1>
+        <h1><a href="https://shop.eventjet.at/bd543dad-95a8-4088-8792-1f7e4ce75418"><u>Tickets Hier erhältlich!</u></a></h1>
       </div>
     </div>
     <div class="row mt-5 ">
