@@ -6,40 +6,61 @@
         <h1>Willkommen auf unserer Theaterhomepage!</h1>
       </div>
     </div>
-    <div class="row">
-      <announcement-component></announcement-component>
+    <div class="row mt-3">
+      <div class="col p-0 d-flex justify-content-center text-center">
+        <h1>Das Dreamteam Wien bedankt sich für euer Kommen und freut sich schon auf das nächste Projekt</h1>
+      </div>
     </div>
-    <a href="https://www.dermussessein.at">
-      <!--<div class="row mt-5 d-flex justify-content-center">
-        <div class="col-8 col-md-3 d-flex justify-content-center">
-          <img src="/images/plays/dermussessein.png" width="80%" />
+    <div class="row mt-5 pt-5 d-flex justify-content-center">
+      <div class="col-4 col-sm-12">
+        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <img class="d-block w-100  carousel-image" src="/images/logos/Dreamteam_Logo_bunt.svg">
+            </div>
+            <div class="carousel-item" v-for="image in images" v-bind:key="image.id">
+              <img class="d-block w-100 carousel-image" :src="'/images/carousel/' +  image" >
+            </div>
+            
+          </div>
+          <a class="carousel-control-prev carousel-control" href="#carouselExampleControls" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next carousel-control" href="#carouselExampleControls" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
         </div>
-      </div>-->
-      
-    </a>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import AdventCalendarComponent from './AdventCalendarComponent.vue';
 export default {
-  components: { AdventCalendarComponent },
   props: ["user"],
   data() {
     return {
-      activeDoor:null,
+      images:[],
     };
   },
   methods: {
-    redirect() {
-      window.location.href = "/christmas-announcement";
-    },
+    loadImages() {
+      axios
+        .get("/api/image-carousel")
+        .then((response) => {
+          this.images = response.data.map((e) => {
+            return e.image;
+          })
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   },
   mounted() {
-    
-      this.activeDoor = "test",
-      $("#adventModal").modal("show");
-      $('#adventModal').focus();
+    this.loadImages();
   },
 };
 </script>
@@ -66,4 +87,32 @@ a:hover {
 .modal-dialog-landscape {
   max-width: 600px!important;
 }
+
+.carousel-image {
+  max-height: 800px;
+  object-fit: contain;
+}
+
+@media screen and (max-width: 768px) {
+  .carousel-image {
+    max-height: 400px;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .carousel-image {
+    max-height: 250px;
+  }
+}
+
+
+
+.carousel-control{
+  opacity: 0 !important;
+}
+
+.carousel-control:hover{
+  opacity: 0.5 !important;
+}
+
 </style>
