@@ -14,7 +14,7 @@ class Play extends Model
    protected $appends = ['roles'];
 
    public function getRolesAttribute(){
-      return PlayRole::all();
+      //return PlayRole::all();
       return PlayRole::where("play_id", $this->id)->get();
    }
     
