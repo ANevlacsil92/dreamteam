@@ -162,6 +162,7 @@ export default {
   props: ["user", "params"],
   data() {
     return {
+      csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
       play: null,
       scenes: [],
       roles: [],
@@ -177,6 +178,7 @@ export default {
         url: "/api/textbook/change-line",
         method: "POST",
         headers: {
+          'X-CSRF-TOKEN': _this.csrf
         },
         data: {
           line: _this.activeLine,
