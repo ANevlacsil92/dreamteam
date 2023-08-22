@@ -25,6 +25,14 @@ Route::get('/', function () {
     return view('home')->with(['component' => 'home-component']);
 });
 
+Route::get('/impressum', function () {
+    return view('imprint');
+});
+
+//Route::get('/test-token', function () {
+//    return env('FACEBOOK_GRAPH_TOKEN');
+//});
+
 Route::get('/tickets', function () {
     return view('tickets')->with(['component' => 'home-component']);
 });
