@@ -91,7 +91,7 @@ class ApiController extends Controller
 
     public function getExtendedUsers(Request $request)
     {
-        $users = User::with('extendedUserProperty')->get();
+        $users = User::with('extendedUserProperty')->orderBy('name')->get();
 
         $ret = [];
 
