@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'App\\Console\\Commands\\RenewApiToken' => $baseDir . '/app/Console/Commands/RenewApiToken.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
     'App\\Http\\Controllers\\ApiController' => $baseDir . '/app/Http/Controllers/ApiController.php',
@@ -26,6 +27,7 @@ return array(
     'App\\Http\\Middleware\\TrustHosts' => $baseDir . '/app/Http/Middleware/TrustHosts.php',
     'App\\Http\\Middleware\\TrustProxies' => $baseDir . '/app/Http/Middleware/TrustProxies.php',
     'App\\Http\\Middleware\\VerifyCsrfToken' => $baseDir . '/app/Http/Middleware/VerifyCsrfToken.php',
+    'App\\Models\\ExtendedUserProperty' => $baseDir . '/app/Models/ExtendedUserProperty.php',
     'App\\Models\\Play' => $baseDir . '/app/Models/Play.php',
     'App\\Models\\PlayRole' => $baseDir . '/app/Models/PlayRole.php',
     'App\\Models\\PlaySceneSections' => $baseDir . '/app/Models/PlaySceneSections.php',

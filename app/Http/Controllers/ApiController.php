@@ -43,16 +43,19 @@ class ApiController extends Controller
                 array_push($sections, $section);
             }
         }
-
         return $sections;
     }
 
-    public function getSchedule(Request $request)
+    public function getScheduleData(Request $request)
     {
         $schedule = DB::select('call sp_get_participants_by_schedule(' . $request->playId .')');
-       
+        $lines = DB::select('SELECT linenumber, said_by FROM play_textbooks where play_textbooks.play_id =' . $request->playId .';');
 
-        return $schedule;
+        $ret = new stdClass();
+        $ret->schedule = $schedule;
+        $ret->textlines = $lines;
+
+        return $ret;
     }
 
     public function changeLine(Request $request)

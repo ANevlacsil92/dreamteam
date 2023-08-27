@@ -50,6 +50,7 @@
                       rows="5"
                       v-if="activeAppointment"
                       v-model="activeAppointment.start_line"
+                      @change="calculateParticipants"
                     />
                   </div>
                 </div>
@@ -65,6 +66,7 @@
                       rows="5"
                       v-if="activeAppointment"
                       v-model="activeAppointment.end_line"
+                      @change="calculateParticipants"
                     />
                   </div>
                 </div>
@@ -80,6 +82,22 @@
                       rows="5"
                       v-if="activeAppointment"
                       v-model="activeAppointment.comment"
+                    />
+                  </div>
+                </div>
+                <div class="row col-12 mb-3">
+                  <div class="col-md-2">
+                    <p>Darsteller:innen:</p>
+                  </div>
+                  <div class="col-md-10" v-if="activeAppointment">
+                    <input
+                      disabled
+                      id="text"
+                      class="form-control"
+                      name="textarea"
+                      rows="5"
+                      v-if="textlines"
+                      v-model="displayParticipants"
                     />
                   </div>
                 </div>
@@ -165,9 +183,11 @@ export default {
   props: ["user", "params"],
   data() {
     return {
+      csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
       play: null,
       schedule: [],
-      roles: [],
+      textlines: [],
+      displayParticipants: "",
       activeAppointment: null,
       activeAppointmentIsNew: false,
     };
@@ -181,6 +201,7 @@ export default {
           url: "/api/schedule/change-appointment",
           method: "DELETE",
           headers: {
+            'X-CSRF-TOKEN': _this.csrf
           },
           data: {
             id: id,
@@ -202,6 +223,7 @@ export default {
         end_line: null,
         comment: null,
       };
+      this.displayParticipants = "";
       this.activeAppointmentIsNew = true;
     },
     saveAppointment: function () {
@@ -211,6 +233,7 @@ export default {
         url: "/api/schedule/change-appointment",
         method: "POST",
         headers: {
+          'X-CSRF-TOKEN': _this.csrf
         },
         data: {
           appointment: _this.activeAppointment,
@@ -226,7 +249,41 @@ export default {
       console.log(document.getElementById("btn-modal"));
       this.activeAppointmentIsNew = false;
       this.activeAppointment = appointment;
+      this.calculateParticipants();
+      
       $("#siteNoteModal").modal("show");
+    },
+    calculateParticipants: function(){
+
+      if(!this.activeAppointment.start_line || !this.activeAppointment.end_line){
+        return;
+      }
+
+      let _this = this;
+
+      console.log(this.textlines);
+      
+      var filteredLines = this.textlines.filter((line) => {
+        return line.linenumber >= _this.activeAppointment.start_line && line.linenumber <= _this.activeAppointment.end_line;
+      });
+
+      console.log(filteredLines);
+
+      var participants = filteredLines.map((line) => {
+        return line.said_by;
+      });
+
+      // filter all participants with space in name
+      participants = participants.filter((item) => {
+        return item.indexOf(" ") === -1;
+      });
+
+      // sort names alphabetically
+      participants.sort();
+
+      this.displayParticipants = participants.filter((item, index) => {
+        return participants.indexOf(item) === index;
+      }).join(", ");
     },
     retrieveSchedule: function () {
       let _this = this;
@@ -239,7 +296,8 @@ export default {
           playId: _this.params.playId,
         },
         success: function (data) {
-          _this.schedule = data;
+          _this.schedule = data.schedule;
+          _this.textlines = data.textlines;
         },
       });
     },

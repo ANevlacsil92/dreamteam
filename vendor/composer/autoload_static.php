@@ -531,6 +531,7 @@ class ComposerStaticInit9323a4ac7d9128a6a062e86492dc6713
     );
 
     public static $classMap = array (
+        'App\\Console\\Commands\\RenewApiToken' => __DIR__ . '/../..' . '/app/Console/Commands/RenewApiToken.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Http\\Controllers\\ApiController' => __DIR__ . '/../..' . '/app/Http/Controllers/ApiController.php',
@@ -551,6 +552,7 @@ class ComposerStaticInit9323a4ac7d9128a6a062e86492dc6713
         'App\\Http\\Middleware\\TrustHosts' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustHosts.php',
         'App\\Http\\Middleware\\TrustProxies' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustProxies.php',
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
+        'App\\Models\\ExtendedUserProperty' => __DIR__ . '/../..' . '/app/Models/ExtendedUserProperty.php',
         'App\\Models\\Play' => __DIR__ . '/../..' . '/app/Models/Play.php',
         'App\\Models\\PlayRole' => __DIR__ . '/../..' . '/app/Models/PlayRole.php',
         'App\\Models\\PlaySceneSections' => __DIR__ . '/../..' . '/app/Models/PlaySceneSections.php',

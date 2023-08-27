@@ -37,9 +37,9 @@ Route::get('/tickets', function () {
     return view('tickets')->with(['component' => 'home-component']);
 });
 
-Route::get('/christmas-announcement', function () {
+/*Route::get('/christmas-announcement', function () {
     return view('home')->with(['component' => 'announcement-component']);
-});
+});*/
 
 Route::get('/das-team', function () {
     return view('home')->with(['component' => 'team-component']);
@@ -85,7 +85,7 @@ Route::middleware(['auth'])->group(function () {
     
     Route::get('/api/play-textbook', [ApiController::class, 'getPlayTextbook']);
     Route::get('/api/play-sections', [ApiController::class, 'getSections']);
-    Route::get('/api/play-schedule', [ApiController::class, 'getSchedule']);
+    Route::get('/api/play-schedule', [ApiController::class, 'getScheduleData']);
     Route::post('/api/textbook/change-line', [ApiController::class, 'changeLine']);
     Route::post('/api/schedule/change-appointment', [ApiController::class, 'changeAppointment']);
     Route::delete('/api/schedule/change-appointment', [ApiController::class, 'deleteAppointment']);
