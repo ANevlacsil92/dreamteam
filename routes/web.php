@@ -93,6 +93,8 @@ Route::middleware(['auth'])->group(function () {
     
 });
 
+Route::get('/api/trigger-ics-generation/{playId}', [ApiController::class], 'updateICS');
+
 
 Route::get('/tokens/create', function (Request $request) {
     $token = $request->user()->createToken($request->token_name);

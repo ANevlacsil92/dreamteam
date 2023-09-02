@@ -67,6 +67,28 @@ class ApiController extends Controller
         return response($line);
     }
 
+    public function updateICS($playId=null){
+
+
+        $play = Play::find($playId);
+        $dates = PlaySchedule::where("play_id", $playId)->get();
+        
+
+        $ics = "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//hacksw/handcal//NONSGML v1.0//EN\n";
+        foreach($dates as $date){
+            $ics .= "BEGIN:VEVENT\n";
+            $ics .= "DTSTART:" . date("Ymd", strtotime($date->practice_date)) . "T190000\n";
+            $ics .= "DTEND:" . date("Ymd", strtotime($date->end_date)) . "T220000\n";
+            $ics .= "SUMMARY:" . $play->name . " Probe\n";
+            $ics .= "DESCRIPTION: Zeilen " . $date->start_line . "-" . $date->end_line . "\n";
+            $ics .= "LOCATION: Margaretenguertel 38-40, 1050 Wien\n";
+            $ics .= "END:VEVENT\n";
+        }
+        $ics .= "END:VCALENDAR";
+
+        Storage::disk('public')->put('calendar.ics', $ics);
+    }
+
     public function changeAppointment(Request $request)
     {
         //Log::debug($request);
@@ -82,6 +104,9 @@ class ApiController extends Controller
         $schedule->end_line = $request->appointment["end_line"];
         $schedule->comment = $request->appointment["comment"];
         $schedule->save();
+
+        $this->updateICS($request->appointment["play_id"]);
+
         return response(DB::select('call sp_get_participants_by_schedule(' . $request->appointment["play_id"] .')'));
     }
 
