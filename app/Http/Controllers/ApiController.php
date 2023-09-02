@@ -74,7 +74,7 @@ class ApiController extends Controller
         $dates = PlaySchedule::where("play_id", $playId)->get();
         
 
-        $ics = "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//hacksw/handcal//NONSGML v1.0//EN\n";
+        $ics = "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//hacksw/handcal//NONSGML v1.0//EN\nMETHOD:PUBLISH\nX-WR-CALNAME:Probenplan\n";
         foreach($dates as $date){
             $ics .= "BEGIN:VEVENT\n";
             $ics .= "DTSTART:" . date("Ymd", strtotime($date->practice_date)) . "T190000\n";
