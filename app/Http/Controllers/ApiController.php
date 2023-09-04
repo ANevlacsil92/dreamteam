@@ -77,8 +77,8 @@ class ApiController extends Controller
         $ics = "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//hacksw/handcal//NONSGML v1.0//EN\nMETHOD:PUBLISH\nX-WR-CALNAME:Probenplan\n";
         foreach($dates as $date){
             $ics .= "BEGIN:VEVENT\n";
-            $ics .= "DTSTART:" . date("Ymd", strtotime($date->practice_date)) . "T190000\n";
-            $ics .= "DTEND:" . date("Ymd", strtotime($date->practice_date)) . "T220000\n";
+            $ics .= "DTSTART;TZID=Europe/Vienna:" . date("Ymd", strtotime($date->practice_date)) . "T190000\n";
+            $ics .= "DTEND;TZID=Europe/Vienna:" . date("Ymd", strtotime($date->practice_date)) . "T220000\n";
             $ics .= "SUMMARY:" . $play->name . " Probe\n";
             $ics .= "DESCRIPTION: Zeilen " . $date->start_line . "-" . $date->end_line . "\n";
             $ics .= "LOCATION: Margaretenguertel 38-40, 1050 Wien\n";
