@@ -21,8 +21,8 @@
     </div>
     <div class="row">
       <div class="col p-0 d-flex">
-        <a :href="'https://e.pcloud.link/publink/show?code=7mTotalK#folder=2403953515&tpl=publicfoldergrid'">
-          <h2>Zu den Videos</h2>
+        <a :href="play.downloads_link">
+          <h2>Zu den Downloads</h2>
         </a>
       </div>
     </div>
