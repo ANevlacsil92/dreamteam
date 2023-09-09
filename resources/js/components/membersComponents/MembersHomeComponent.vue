@@ -7,7 +7,7 @@
     </div>
     <div class="row mt-5">
       <div class="col p-0 d-flex">
-        <h2>Downloads zu den Stücken</h2>
+        <h2>Infos zu den Stücken</h2>
       </div>
     </div>
     <div class="row mb-3" v-for="play in plays" v-bind:key="play.id">
