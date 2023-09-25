@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ApiController;
+use App\Models\Play;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
@@ -43,6 +44,31 @@ Route::get('/tickets', function () {
 
 Route::get('/das-team', function () {
     return view('home')->with(['component' => 'team-component']);
+});
+
+
+Route::get('/das-team/{shortlink}', function (Request $request) {
+    
+    $member = User::where('shortlink_url', $request->shortlink)->with(['extendedUserProperty', 'roles.play'])->firstOrFail();
+
+    $params = new stdClass();
+    $params->member = $member;
+    
+    return view('home')->with(['component' => 'team-member-component','params' => $params]);
+});
+
+Route::get('/bisher-gespielt', function () {
+    return view('home')->with(['component' => 'plays-component']);
+});
+
+Route::get('/bisher-gespielt/{shortlink}', function (Request $request) {
+
+    $play = Play::where('shortlink_url', $request->shortlink)->firstOrFail();
+
+    $params = new stdClass();
+    $params->play = $play;
+    
+    return view('home')->with(['component' => 'play-detail-component','params' => $params]);
 });
 
 Route::middleware(['auth'])->group(function () {

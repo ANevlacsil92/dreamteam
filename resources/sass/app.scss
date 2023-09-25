@@ -17,3 +17,87 @@
 .card-header{
     background-color: #fff0!important;
 }
+
+// PLAY CARDS
+.play-card {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 450px 50px;
+  grid-template-areas:
+    "img"
+    "year";
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
+  max-height: 500px;
+}
+
+.play-card:hover {
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.2);
+}
+
+.play-card-image {
+  grid-area: img;
+  width: 100%;
+  height: 100%;
+  border-radius: 20px 20px 0 0; 
+  object-fit: cover;
+  object-position: center;
+}
+
+.play-card-year {
+  grid-area: year;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: #f39200!important;
+  margin: 0;
+}
+
+// ROLE CARDS
+.role-card {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 450px 100px;
+  grid-template-areas:
+    "img"
+    "cast";
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
+  max-height: 550px;
+  width: 100%;
+}
+
+.role-card:hover {
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.2);
+}
+
+.role-card-image {
+  grid-area: img;
+  width: 100%;
+  height: 100%;
+  border-radius: 20px 20px 0 0; 
+  object-fit: cover;
+  object-position: center;
+}
+
+.role-card-cast {
+  grid-area: cast;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: #f39200!important;
+  margin: 0;
+}
+
+
+.anchor-no-dec{
+  text-decoration: none!important;
+}
+
+

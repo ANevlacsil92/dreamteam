@@ -27,8 +27,11 @@ Vue.component('home-component',  require('./components/publicComponents/HomeComp
 Vue.component('announcement-component',  require('./components/publicComponents/AnnouncementComponent.vue').default);
 Vue.component('advent-calendar-component',  require('./components/publicComponents/AdventCalendarComponent.vue').default);
 Vue.component('team-component',  require('./components/publicComponents/TeamComponent.vue').default);
+Vue.component('team-member-component',  require('./components/publicComponents/TeamMemberComponent.vue').default);
 Vue.component('team-member-photo-left-component',  require('./components/publicComponents/TeamMemberPhotoLeftComponent.vue').default);
 Vue.component('team-member-photo-right-component',  require('./components/publicComponents/TeamMemberPhotoRightComponent.vue').default);
+Vue.component('plays-component',  require('./components/publicComponents/PlaysComponent.vue').default);
+Vue.component('play-detail-component',  require('./components/publicComponents/PlayDetailComponent.vue').default);
 
 Vue.component('members-home-component',  require('./components/membersComponents/MembersHomeComponent.vue').default);
 Vue.component('members-play-download-component',  require('./components/membersComponents/MembersPlayDownloadComponent.vue').default);

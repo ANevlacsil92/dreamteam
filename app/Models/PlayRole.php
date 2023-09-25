@@ -11,6 +11,12 @@ class PlayRole extends Model
    
    use SoftDeletes;
 
-   
+   public function actor(){
+      return $this->hasOne(User::class, 'id', 'played_by');
+   }
+
+   public function play(){
+      return $this->hasOne(Play::class, 'id', 'play_id');
+   }
     
 }

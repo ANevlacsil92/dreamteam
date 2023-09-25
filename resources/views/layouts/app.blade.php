@@ -63,6 +63,12 @@
                             <a class="nav-link" href="/das-team" style="color: #f39200!important; font-weight:bold">Das Team</a>
                         </li>
                     </ul>
+                    <ul class="navbar-nav ml-md-3">
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="/bisher-gespielt" style="color: #f39200!important; font-weight:bold">Bisher Gespielt</a>
+                        </li>
+                    </ul>
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">

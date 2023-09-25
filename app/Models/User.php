@@ -34,6 +34,7 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
+        'email',
         'remember_token',
     ];
 
@@ -50,5 +51,9 @@ class User extends Authenticatable
     public function extendedUserProperty()
     {
         return $this->hasOne(ExtendedUserProperty::class, "user_id");
+    }
+
+    public function roles(){
+        return $this->hasMany(PlayRole::class, "played_by");
     }
 }

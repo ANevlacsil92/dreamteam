@@ -13,10 +13,10 @@
     </div>
     <div class="row mt-5 pt-5 d-flex justify-content-center">
       <div class="col-4 col-sm-12">
-        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+        <div id="carouselExampleControls" class="carousel" data-ride="carousel">
           <div class="carousel-inner">
             <div class="carousel-item active">
-              <img class="d-block w-100  carousel-image" src="/images/logos/Dreamteam_Logo_bunt.svg">
+              <img class="d-block carousel-image" src="/images/logos/Dreamteam_Logo_bunt.svg">
             </div>
             <div class="carousel-item" v-for="image in images" v-bind:key="image.id">
               <img class="d-block w-100 carousel-image" :src="'/images/carousel/' +  image" >

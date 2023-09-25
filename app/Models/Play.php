@@ -15,7 +15,7 @@ class Play extends Model
 
    public function getRolesAttribute(){
       //return PlayRole::all();
-      return PlayRole::where("play_id", $this->id)->get();
+      return PlayRole::where("play_id", $this->id)->with("actor.extendedUserProperty")->get();
    }
     
 }

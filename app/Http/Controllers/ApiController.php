@@ -23,6 +23,9 @@ class ApiController extends Controller
             $ret = Play::find($request->playId);
         } else {
             $ret = Play::all();
+
+            // remove property download_link
+            $ret = $ret->makeHidden(['downloads_link']);
         }
 
         return $ret;
@@ -118,6 +121,24 @@ class ApiController extends Controller
     }
 
     public function getExtendedUsers(Request $request)
+    {
+        $users = User::with('extendedUserProperty')->orderBy('name')->get();
+
+        $ret = [];
+
+        foreach($users as $user){
+            $u = new stdClass();
+            $u->id = $user->id;
+            $u->name = $user->name;
+            $u->about_me = $user->extendedUserProperty->about_me ?? "Ich stelle mich bald vor!";
+            $u->photo_url = $user->extendedUserProperty->photo_url ?? "imgs/profilepictures/logo_klein.png";
+            array_push($ret, $u);
+        }
+
+        return $ret;
+    }
+
+    public function getTeamMember(Request $request)
     {
         $users = User::with('extendedUserProperty')->orderBy('name')->get();
 
