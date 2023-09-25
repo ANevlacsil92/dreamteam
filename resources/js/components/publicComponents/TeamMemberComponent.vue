@@ -21,20 +21,22 @@
       </div>
     </div>
     <div class="row mb-5 d-flex justify-content-center">
-      <div class="mt-4 col-sm-12 col-md-6 col-lg-4 d-flex justify-content-center" v-for="(role) in member.roles.filter(e => !e.name.toLowerCase().includes('regiss'))" v-bind:key="role.id">
+      <div class="mt-4 col-sm-12 col-md-6 col-lg-4 d-flex justify-content-center" v-for="(role) in member.roles.filter(e => !e.name.toLowerCase().includes('regiss')).reverse()" v-bind:key="role.id">
         <role-card :role="role" :actor="member" :type="'actor'" :play="role.play"></role-card>
       </div>     
-    </div>    
-    <div class="row mt-4 ">
-      <div class="col p-0 d-flex justify-content-center text-center">
-        <h1>Mitgewirkt als</h1>
+    </div>
+    <div v-if="member.roles.filter(e => e.name.toLowerCase().includes('regiss')).length > 0">
+      <div class="row mt-4 ">
+        <div class="col p-0 d-flex justify-content-center text-center">
+          <h1>Mitgewirkt als</h1>
+        </div>
+      </div>
+      <div class="row mb-5 d-flex justify-content-center">
+        <div class="mt-4 col-sm-12 col-md-6 col-lg-4 d-flex justify-content-center" v-for="(role) in member.roles.filter(e => e.name.toLowerCase().includes('regiss')).reverse()" v-bind:key="role.id">
+          <role-card :role="role" :actor="member" :type="'actor'" :play="role.play"></role-card>
+        </div>     
       </div>
     </div>
-    <div class="row mb-5 d-flex justify-content-center">
-      <div class="mt-4 col-sm-12 col-md-6 col-lg-4 d-flex justify-content-center" v-for="(role) in member.roles.filter(e => e.name.toLowerCase().includes('regiss'))" v-bind:key="role.id">
-        <role-card :role="role" :actor="member" :type="'actor'" :play="role.play"></role-card>
-      </div>     
-    </div>    
   </div>
 </template>
 

@@ -130,6 +130,7 @@ class ApiController extends Controller
             $u = new stdClass();
             $u->id = $user->id;
             $u->name = $user->name;
+            $u->shortlink_url = $user->shortlink_url;
             $u->about_me = $user->extendedUserProperty->about_me ?? "Ich stelle mich bald vor!";
             $u->photo_url = $user->extendedUserProperty->photo_url ?? "imgs/profilepictures/logo_klein.png";
             array_push($ret, $u);

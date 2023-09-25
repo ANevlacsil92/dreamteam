@@ -7,8 +7,8 @@
     </div>      
     <div class="row mb-5 d-flex justify-content-center" v-for="(user,i) in users" v-bind:key="user.id">
       <!--<team-member-photo-left-component :user=user></team-member-photo-left-component>-->
-      <team-member-photo-right-component v-if="i%2==0" :user=user></team-member-photo-right-component>
-      <team-member-photo-left-component v-else :user=user></team-member-photo-left-component>
+        <team-member-photo-right-component v-if="i%2==0" :user=user></team-member-photo-right-component>
+        <team-member-photo-left-component v-else :user=user></team-member-photo-left-component>
     </div>     
   </div>
 </template>
