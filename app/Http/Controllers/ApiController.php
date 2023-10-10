@@ -66,6 +66,7 @@ class ApiController extends Controller
         //Log::debug();
         $line = PlayTextbook::find($request->line["id"]);
         $line->text = $request->line["text"];
+        $line->following_stage_direction = $request->line["following_stage_direction"];
         $line->save();
         return response($line);
     }
