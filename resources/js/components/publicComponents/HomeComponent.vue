@@ -11,12 +11,12 @@
         <h1>Das Dreamteam Wien bedankt sich für euer Kommen und freut sich schon auf das nächste Projekt</h1>
       </div>
     </div>
-    <div class="row mt-5 pt-5 d-flex justify-content-center">
+    <div class="row pt-5 mb-5 pb-5 d-flex justify-content-center">
       <div class="col-4 col-sm-12">
         <div id="carouselExampleControls" class="carousel" data-ride="carousel">
           <div class="carousel-inner">
             <div class="carousel-item active">
-              <img class="d-block carousel-image" src="/images/logos/Dreamteam_Logo_bunt.svg">
+              <img class="d-block w-100 carousel-image" src="/images/logos/Dreamteam_Logo_bunt_hoch.svg">
             </div>
             <div class="carousel-item" v-for="image in images" v-bind:key="image.id">
               <img class="d-block w-100 carousel-image" :src="'/images/carousel/' +  image" >
@@ -31,6 +31,32 @@
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="sr-only">Next</span>
           </a>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-5 pt-5 mb-0 pb-5 d-flex justify-content-center sponsor-section">
+      <div class="col">
+        <div class="container">
+          <div class="row">
+            <h1>Wir bedanken uns bei unseren Sponsoren</h1>
+          </div>
+          <div class="row mt-4">
+            <div class="col-md d-flex justify-content-center align-items-center px-2">
+              <img class="w-100" src="/images/sponsors/aignerpartner.svg"/>
+            </div>
+            <div class="col-md d-flex justify-content-center align-items-center px-2">
+              <img class="w-100" src="/images/sponsors/fertax.jpg"/>
+            </div>
+            <div class="col-md d-flex justify-content-center align-items-center px-2">
+              <img class="w-100" src="/images/sponsors/gross.jpg"/>
+            </div>
+            <div class="col-md d-flex justify-content-center align-items-center px-2">
+              <img class="w-100" src="/images/sponsors/mainx.svg"/>
+            </div>
+            <div class="col-md d-flex justify-content-center align-items-center px-2">
+              <img class="w-100" src="/images/sponsors/vest.jpg"/>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -91,6 +117,12 @@ a:hover {
 .carousel-image {
   max-height: 800px;
   object-fit: contain;
+}
+
+@media screen and (max-width: 1950px) {
+  .carousel-image {
+    max-height: 600px;
+  }
 }
 
 @media screen and (max-width: 768px) {
