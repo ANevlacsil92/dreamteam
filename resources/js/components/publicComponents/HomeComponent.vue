@@ -42,19 +42,19 @@
           </div>
           <div class="row mt-4">
             <div class="col-md d-flex justify-content-center align-items-center px-2">
-              <img class="w-100" src="/images/sponsors/aignerpartner.svg"/>
+              <a href="https://afp-zt.at/"><img class="w-100" src="/images/sponsors/aignerpartner.jpg"/></a>
             </div>
             <div class="col-md d-flex justify-content-center align-items-center px-2">
-              <img class="w-100" src="/images/sponsors/fertax.jpg"/>
+              <a href="https://fertax.at/"><img class="w-100" src="/images/sponsors/fertax.jpg"/></a>
             </div>
             <div class="col-md d-flex justify-content-center align-items-center px-2">
-              <img class="w-100" src="/images/sponsors/gross.jpg"/>
+              <a href="https://www.gross-gross.eu/"><img class="w-100" src="/images/sponsors/gross.jpg"/></a>
             </div>
             <div class="col-md d-flex justify-content-center align-items-center px-2">
-              <img class="w-100" src="/images/sponsors/mainx.svg"/>
+              <a href="https://autoreparatur-mainx.at/"><img class="w-100" src="/images/sponsors/mainx.svg"/></a>
             </div>
             <div class="col-md d-flex justify-content-center align-items-center px-2">
-              <img class="w-100" src="/images/sponsors/vest.jpg"/>
+              <a href="http://www.vest-immobilien.at/"><img class="w-100" src="/images/sponsors/vest.jpg"/></a>
             </div>
           </div>
         </div>
