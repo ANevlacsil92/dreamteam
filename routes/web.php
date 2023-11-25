@@ -35,7 +35,7 @@ Route::get('/impressum', function () {
 //});
 
 Route::get('/tickets', function () {
-    return Redirect::to("https://shop.eventjet.at/ef36f9d1-1870-4f89-8806-8a003f7d316a/event-group/df29f27f-da47-4133-a1d9-c6ed55872371");
+    return Redirect::to("https://shop.eventjet.at/ef36f9d1-1870-4f89-8806-8a003f7d316a/event-group/111ce360-49f1-4119-9cc2-a7634fc71e88");
 });
 
 /*Route::get('/christmas-announcement', function () {
