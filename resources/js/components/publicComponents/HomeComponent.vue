@@ -8,10 +8,44 @@
     </div>
     <div class="row mt-3">
       <div class="col p-0 d-flex justify-content-center text-center">
-        <h1>Das Dreamteam Wien bedankt sich für euer Kommen und freut sich schon auf das nächste Projekt</h1>
+        <h3>Tickets für: "Nichts für ungut"<br>Premiere am 06.03.2024</h3>
       </div>
     </div>
-    <div class="row pt-5 mb-5 pb-5 d-flex justify-content-center">
+
+
+    <!-- Advent Calendar-->
+
+    <div
+        class="modal fade"
+        id="adventModal"
+        tabindex="-1"
+        aria-labelledby="adventModalLabel"
+        aria-hidden="true" 
+        v-if="activeDoor"
+      >
+        <div class="modal-dialog" :class="{'modal-dialog-landscape': activeDoor.is_landscape}">
+          <div class="modal-content">
+            <div class="modal-body"
+              style="background-color: #fce8cb;">
+              <div class="container">
+                <div class="row">
+                  <img
+                    :src="'http://localhost/images/ac/' + activeDoor.image"
+                    class="img-fluid"
+                  >
+                </div>
+                <div class="row mt-2">
+                  <div v-html="activeDoor.text"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <advent-calendar-component></advent-calendar-component>
+    <!-- IMAGE CAROUSEL
+      <div class="row pt-5 mb-5 pb-5 d-flex justify-content-center">
       <div class="col-4 col-sm-12">
         <div id="carouselExampleControls" class="carousel" data-ride="carousel">
           <div class="carousel-inner">
@@ -33,7 +67,11 @@
           </a>
         </div>
       </div>
-    </div>
+    </div>-->
+
+
+
+
     <div class="row mt-5 pt-5 mb-0 pb-5 d-flex justify-content-center sponsor-section">
       <div class="col">
         <div class="container">
@@ -69,6 +107,7 @@ export default {
   data() {
     return {
       images:[],
+      activeDoor: null,
     };
   },
   methods: {

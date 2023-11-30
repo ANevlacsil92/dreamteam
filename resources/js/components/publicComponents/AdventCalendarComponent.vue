@@ -1,9 +1,11 @@
 <template>
-  <div class="container container-calendar" >
+  <div class="container container-calendar">
     <div v-if="calendar.length>0">
         <div class="row d-flex justify-content-center" v-for="i in 6" :key="i">
           <div class="col-3 pt-4 pb-4 d-flex justify-content-center advent-window" v-on:click="openmodal(calendar[(i * 4 + j - 4)-1])" v-for="j in 4" :key="j">
-            {{ calendar[(i * 4 + j - 4)-1].id }}
+            <div v-if="calendar[(i * 4 + j - 4)-1]">
+              {{ calendar[(i * 4 + j - 4)-1].id }}
+            </div>
           </div>
         </div>
       </div>
@@ -42,8 +44,8 @@ export default {
 
 <style scoped>
 .container-calendar {
-  background-image: url("/images/plays/dermussessein.png");
-  background-size: auto 100%;
+  background-image: url("/images/plays/nichts-fuer-ungut/cover.jpg");
+  background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
   width: 25%;
