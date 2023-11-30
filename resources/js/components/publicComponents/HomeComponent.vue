@@ -8,7 +8,7 @@
     </div>
     <div class="row mt-3">
       <div class="col p-0 d-flex justify-content-center text-center">
-        <h3>Tickets für: "Nichts für ungut"<br>Premiere am 06.03.2024</h3>
+        <a href="/tickets"><h3>Tickets für: "Nichts für ungut"<br>Premiere am 06.03.2024</h3></a>
       </div>
     </div>
 
