@@ -30,7 +30,7 @@
               <div class="container">
                 <div class="row">
                   <img
-                    :src="'http://localhost/images/ac/' + activeDoor.image"
+                    :src="'/images/ac/' + activeDoor.image"
                     class="img-fluid"
                   >
                 </div>
