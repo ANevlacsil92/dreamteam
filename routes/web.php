@@ -19,7 +19,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get("/test", function() {
+    return "OK";
 
+});
 Auth::routes();
 
 Route::get('/', function () {
