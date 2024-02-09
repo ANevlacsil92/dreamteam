@@ -6,19 +6,38 @@
         <h1>Willkommen auf unserer Theaterhomepage!</h1>
       </div>
     </div>
+
+
     <div class="row mt-3">
-      <div class="col p-0 d-flex justify-content-center text-center">
-        <a href="/tickets"><h3>Tickets für: "Nichts für ungut"<br>Premiere am 06.03.2024</h3></a>
+      <div class="col d-flex justify-content-center text-center flex-column">
+        <h3 class="m-0">Nichts für ungut</h3>
+        <span>Premiere am 06.03.2024</span>
       </div>
     </div>
 
 
-    <!-- Advent Calendar-->
+    <div class="row mt-2">
+      <div class="col p-0 d-flex justify-content-center text-center">
+        <a class="link-button w-100 d-flex align-items-center justify-content-center" href="https://www.dreamteam.wien/tickets"><div class="row"><div class="col d-flex justify-content-center text-center"><h3>Zu den Tickets</h3></div></div></a>
+      </div>
+    </div>
 
-    <div
-        class="modal fade"
-        id="adventModal"
-        tabindex="-1"
+    <div class="row mt-4">
+      <div class="container">
+        <div class="row">
+          <div class="col d-flex justify-content-center text-center">
+            <img src="/images/plays/nichts-fuer-ungut/cover.jpg" class="w-100" style="max-width: 700px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); border-radius: 20px;"/>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Advent Calendar
+      
+      <div
+      class="modal fade"
+      id="adventModal"
+      tabindex="-1"
         aria-labelledby="adventModalLabel"
         aria-hidden="true" 
         v-if="activeDoor"
@@ -30,7 +49,7 @@
               <div class="container">
                 <div class="row">
                   <img
-                    :src="'/images/ac/' + activeDoor.image"
+                  :src="'/images/ac/' + activeDoor.image"
                     class="img-fluid"
                   >
                 </div>
@@ -42,8 +61,9 @@
           </div>
         </div>
     </div>
-
+    
     <advent-calendar-component></advent-calendar-component>
+    -->
     <!-- IMAGE CAROUSEL
       <div class="row pt-5 mb-5 pb-5 d-flex justify-content-center">
       <div class="col-4 col-sm-12">
@@ -131,8 +151,7 @@ export default {
 </script>
 
 <style scoped>
-h1,
-h3 {
+h1 {
   color: #f39200 !important;
 }
 a:hover {
