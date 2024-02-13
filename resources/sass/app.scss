@@ -123,3 +123,138 @@
 .link-button:hover {
   opacity: .8;
 }
+
+.track-grid{
+  cursor: pointer;
+  display: grid;
+  grid-template-columns: 64px auto;
+  grid-template-rows: 1fr 1fr;
+  width: 100%;
+  margin: 10px;
+  grid-template-areas: 
+    "img title"
+    "img artist";
+
+  .track-image{
+    grid-area: img;
+    width: 64px;
+    height: 64px;
+    border-radius: 5px 5px 5px 5px; 
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .track-title{
+    grid-area: title;
+    font-size: 1rem;
+    display: flex;
+    align-items: end;
+    justify-content: left;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-weight: 700;
+    color: #f39200!important;
+    margin: 0 10px;
+  }
+
+  .track-artist{
+    grid-area: artist;
+    font-size: 0.8rem;
+    display: flex;
+    align-items: start;
+    justify-content: left;
+    font-weight: 700;
+    color: #f39200!important;
+    margin: 0 10px;
+  }
+}
+
+.track-grid:hover{
+  opacity: .6;
+}
+
+.sound-grid{
+  cursor: pointer;
+  display: grid;
+  grid-template-columns: 64px auto;
+  grid-template-rows: 1fr;
+  width: 100%;
+  margin: 10px;
+  grid-template-areas: 
+  "img title";
+  
+  .sound-image{
+    grid-area: img;
+    width: 64px;
+    height: 64px;
+    border-radius: 5px 5px 5px 5px; 
+    object-fit: cover;
+    object-position: center;
+  }
+  
+  .sound-title{
+    grid-area: title;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-weight: 700;
+    color: #f39200!important;
+    margin: 0 10px;
+  }
+}
+
+.sound-grid:hover{
+  opacity: .6;
+}
+
+.mixer-img-pause{
+  max-height: 50px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  object-fit: cover;
+  object-position: center;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.mixer-img-pause:hover{
+  opacity: .6;
+}
+
+
+
+.light-grid{
+  cursor: pointer;
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: 1fr;
+  width: 100%;
+  margin: 10px;
+  grid-template-areas: 
+  "img title";
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  
+  .light-title{
+    grid-area: title;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-weight: 700;
+    color: #f39200!important;
+    margin: 0 10px;
+  }
+}
+
+.light-grid:hover{
+  opacity: .6;
+}

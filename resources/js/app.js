@@ -40,6 +40,7 @@ Vue.component('members-video-component',  require('./components/membersComponent
 Vue.component('members-schedule-component',  require('./components/membersComponents/MembersScheduleComponent.vue').default);
 Vue.component('members-user-settings-component',  require('./components/membersComponents/MembersUserSettingsComponent.vue').default);
 
+Vue.component('mixer-component',  require('./components/membersComponents/MixerComponent.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

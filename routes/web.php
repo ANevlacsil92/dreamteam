@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ApiController;
+use App\Http\Controllers\MixerController;
 use App\Models\Play;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -120,7 +121,24 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/api/schedule/change-appointment', [ApiController::class, 'deleteAppointment']);
 
     
+    Route::get('/mixer/get-sounds', [MixerController::class, 'getSounds']);
+    Route::get('/mixer/get-lights', [MixerController::class, 'getLights']);
+    Route::get('/mixer/get-oauth2-authentication', [MixerController::class, 'getOAuth2Authentication']);
+    Route::get('/mixer/get-spotify-access-token', [MixerController::class, 'getSpotifyAccessToken']);
+    Route::get('/mixer/get-playlist-tracks', [MixerController::class, 'getPlaylistTracks']);
+    Route::get('/mixer/play-track', [MixerController::class, 'playTrack']);
+    Route::get('/mixer/pause-track', [MixerController::class, 'pauseTrack']);
+
+    Route::get('/mixer/get-current-token', [MixerController::class, 'getCurrentToken']);
+
+
+    Route::get('/mixer/{playId}', [MixerController::class, 'index']);
+
+    Route::get('/callbacks/spotify', [MixerController::class, 'spotifyCallback']);
+    
 });
+
+
 
 Route::get('/api/trigger-ics-generation/{playId}', [ApiController::class, 'updateICS']);
 
