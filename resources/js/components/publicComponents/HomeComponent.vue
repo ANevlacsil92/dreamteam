@@ -7,7 +7,14 @@
       </div>
     </div>
 
+    <div class="row mt-3">
+      <div class="col d-flex justify-content-center text-center flex-column">
+        <h3 class="m-0">Nichts für ungut</h3>
+        <span>Danke für euren Besuch!</span>
+      </div>
+    </div>
 
+    <!-- Announcement
     <div class="row mt-3">
       <div class="col d-flex justify-content-center text-center flex-column">
         <h3 class="m-0">Nichts für ungut</h3>
@@ -30,7 +37,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div>-->
 
     <!-- Advent Calendar
       
@@ -64,7 +71,7 @@
     
     <advent-calendar-component></advent-calendar-component>
     -->
-    <!-- IMAGE CAROUSEL
+    <!-- IMAGE CAROUSEL-->
       <div class="row pt-5 mb-5 pb-5 d-flex justify-content-center">
       <div class="col-4 col-sm-12">
         <div id="carouselExampleControls" class="carousel" data-ride="carousel">
@@ -73,7 +80,7 @@
               <img class="d-block w-100 carousel-image" src="/images/logos/Dreamteam_Logo_bunt_hoch.svg">
             </div>
             <div class="carousel-item" v-for="image in images" v-bind:key="image.id">
-              <img class="d-block w-100 carousel-image" :src="'/images/carousel/' +  image" >
+              <img class="d-block w-100 carousel-image" :src="'/storage/imgs/carousel/' +  image" >
             </div>
             
           </div>
@@ -87,7 +94,7 @@
           </a>
         </div>
       </div>
-    </div>-->
+    </div>
 
 
 
@@ -135,9 +142,17 @@ export default {
       axios
         .get("/api/image-carousel")
         .then((response) => {
-          this.images = response.data.map((e) => {
-            return e.image;
-          })
+          // this.images = response.data; but images are named by numbers 1.jpg, 2.jpg, 3.jpg...
+          let images = response.data;
+          let imageArray = [];
+
+          for (let i = 0; i <= images.length-1; i++) {
+            imageArray.push(i + ".jpg");
+          }
+
+          this.images = imageArray;
+
+
         })
         .catch((error) => {
           console.log(error);

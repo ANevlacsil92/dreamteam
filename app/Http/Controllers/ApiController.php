@@ -186,4 +186,16 @@ class ApiController extends Controller
     {
        return DB::select('SELECT * FROM vw_advent_calendar');
     }
+
+    public function getImageCarousel(Request $request)
+    {
+        // return name of files in public/images/carousel
+        $files = Storage::files('public/imgs/carousel');
+        $ret = [];
+        foreach($files as $file){
+            array_push($ret, explode("/", $file)[3]);
+        }
+        return $ret;
+
+    }
 }

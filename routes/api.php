@@ -37,5 +37,5 @@ Route::get('/plays/{id?}', [ApiController::class, 'getPlays']);
 Route::get('/the-team', [ApiController::class, 'getExtendedUsers']);
 Route::get('/get-team-member', [ApiController::class, 'getTeamMember']);
 Route::get('/advent-calendar', [ApiController::class, 'getAdventCalendar']);
-Route::get('/image-carousel', [ApiController::class, 'getAdventCalendar']);
+Route::get('/image-carousel', [ApiController::class, 'getImageCarousel']);
 Route::post('/member-settings/save-data', [ApiController::class, 'saveExtendedUserData']);
