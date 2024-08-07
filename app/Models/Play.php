@@ -11,11 +11,15 @@ class Play extends Model
    
    use SoftDeletes;
 
-   protected $appends = ['roles'];
+   protected $appends = ['roles', 'photos'];
 
    public function getRolesAttribute(){
       //return PlayRole::all();
       return PlayRole::where("play_id", $this->id)->with("actor.extendedUserProperty")->get();
+   }
+
+   public function getPhotosAttribute(){
+      return PlayPhoto::where("play_id", $this->id)->get();
    }
     
 }
