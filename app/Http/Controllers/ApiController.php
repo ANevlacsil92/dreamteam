@@ -127,6 +127,9 @@ class ApiController extends Controller
 
         $ret = [];
 
+        $activeUsers = [];
+        $oldUsers = [];
+
         foreach($users as $user){
             $u = new stdClass();
             $u->id = $user->id;
@@ -134,8 +137,15 @@ class ApiController extends Controller
             $u->shortlink_url = $user->shortlink_url;
             $u->about_me = $user->extendedUserProperty->about_me ?? "Ich stelle mich bald vor!";
             $u->photo_url = $user->extendedUserProperty->photo_url ?? "imgs/profilepictures/logo_klein.png";
-            array_push($ret, $u);
+            if($user->extendedUserProperty->is_active){
+                array_push($activeUsers, $u);
+            } else {
+                array_push($oldUsers, $u);
+            }
         }
+
+        $ret["active"] = $activeUsers;
+        $ret["old"] = $oldUsers;
 
         return $ret;
     }
