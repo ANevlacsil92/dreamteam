@@ -89,9 +89,9 @@
         <h1>{{ play.name }} - Textbuch</h1>
       </div>
     </div>
-    <div class="row mt-2" v-if="play">
+    <div class="row d-flex align-items-center mt-2 mb-2" v-if="play">
       <div class="col-2">Markiere Text für:</div>
-      <div class="col-10">
+      <div class="col-8">
         <select v-model="selectedRole">
           <option value=""></option>
           <option v-for="role in play.roles" v-bind:key="role.id">
@@ -99,9 +99,13 @@
           </option>
         </select>
       </div>
+      <div class="col-md-2">
+        <button class="btn btn-nostyle" @click="changeFont('bigger')" style="font-size: 1.4rem;"><span>Aa+</span></button>
+        <button class="btn btn-nostyle" @click="changeFont('smaller')" style="font-size: 1.1rem;"><span>Aa-</span></button>
+      </div>
     </div>
     <div
-      class="row mt-5 pr-2 pl-2"
+      class="row mt-3 pr-2 pl-2"
       v-for="scene in scenes"
       v-bind:key="scene.id"
     >
@@ -118,37 +122,40 @@
           <p>{{ scene.description }}</p>
         </div>
 
-        <div
-          class="row"
-          v-for="line in scene.play_textbook"
-          v-bind:key="line.id"
-          v-on:dblclick="openmodal(line)"
-        >
-          <div class="container m-0 p-0">
-            <div
-              :class="
-                selectedRole != '' && line.said_by.includes(selectedRole)
-                  ? 'row selected-text'
-                  : 'row'
-              "
-            >
-              <div class="col-md-3">
-                <b
-                  ><span class="line-number">{{
-                    pad(line.linenumber, 4)
-                  }}</span>
-                  <span class="said-by">{{ line.said_by }}:</span></b
-                >
+        <div :class="'tb-' + fs">
+            
+          <div
+            class="row"
+            v-for="line in scene.play_textbook"
+            v-bind:key="line.id"
+            v-on:dblclick="openmodal(line)"
+          >
+            <div class="container m-0 p-0">
+              <div
+                :class="
+                  selectedRole != '' && line.said_by.includes(selectedRole)
+                    ? 'row selected-text'
+                    : 'row'
+                "
+              >
+                <div class="col-md-3">
+                  <b
+                    ><span class="line-number">{{
+                      pad(line.linenumber, 4)
+                    }}</span>
+                    <span class="said-by">{{ line.said_by }}:</span></b
+                  >
+                </div>
+                <div class="col-md-9">
+                  <span class="said-by" v-html="line.formattedText"></span>
+                </div>
               </div>
-              <div class="col-md-9">
-                <span class="said-by">{{ line.text }}</span>
+              <div
+                class="row d-flex justify-content-center mt-3 mb-3 p-0"
+                v-if="line.following_stage_direction"
+              >
+                <b>{{ line.following_stage_direction }}</b>
               </div>
-            </div>
-            <div
-              class="row d-flex justify-content-center mt-3 mb-3 p-0"
-              v-if="line.following_stage_direction"
-            >
-              <b>{{ line.following_stage_direction }}</b>
             </div>
           </div>
         </div>
@@ -168,9 +175,41 @@ export default {
       roles: [],
       selectedRole: null,
       activeLine: null,
+      fs: "small"
     };
   },
   methods: {
+    changeFont: function(val) {
+      
+      if(val == "bigger"){
+        if(this.fs == "x-small"){
+          this.fs = "small";
+        } else if(this.fs == "small"){
+          this.fs = "medium";
+        } else if(this.fs == "medium"){
+          this.fs = "large";
+        } else if(this.fs == "large"){
+          this.fs = "x-large";
+        } else if(this.fs == "x-large"){
+          this.fs = "xx-large";
+        }
+      } else {
+        if(this.fs == "xx-large"){
+          this.fs = "x-large";
+        } else if(this.fs == "x-large"){
+          this.fs = "large";
+        } else if(this.fs == "large"){
+          this.fs = "medium";
+        } else if(this.fs == "medium"){
+          this.fs = "small";
+        } else if(this.fs == "small"){
+          this.fs = "x-small";
+        }
+      }
+
+      localStorage.setItem("fontsize", this.fs);
+
+    },
     saveLine: function () {
       let _this = this;
 
@@ -230,11 +269,20 @@ export default {
   mounted() {
     this.retrievePlayTitle();
     this.retrieveTextBook();
+
+    var fs = localStorage.getItem("fontsize");
+    console.log(fs)
+
+    if(fs){
+      this.fs = fs;
+    } else {
+      this.fs = "small";
+    }
   },
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 h1,
 h2,
 h3 {
@@ -255,5 +303,46 @@ p {
 
 .modal-dialog {
   max-width: 1000px;
+}
+
+.btn-nostyle {
+  background: none;
+  border: none;
+}
+
+.tb-x-small {
+  .said-by {
+    font-size: 0.7rem;
+  }
+}
+
+.tb-small {
+  .said-by {
+    font-size: 0.9rem;
+  }
+}
+
+.tb-medium {
+  .said-by {
+    font-size: 1.1rem;
+  }
+}
+
+.tb-large {
+  .said-by {
+    font-size: 1.3rem;
+  }
+}
+
+.tb-x-large {
+  .said-by {
+    font-size: 1.5rem;
+  }
+}
+
+.tb-xx-large {
+  .said-by {
+    font-size: 1.7rem;
+  }
 }
 </style>

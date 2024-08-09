@@ -32,8 +32,30 @@ class ApiController extends Controller
     }
 
     public function getPlayTextbook(Request $request)
+    {    
+        $playScenes = PlayScenes::where('play_id', $request->playId)->with('playTextbook')->get();
+
+        // Iterate over each scene and apply the regex to format the text
+        foreach ($playScenes as $scene) {
+            foreach ($scene->playTextbook as $line) {
+                $line->formattedText = $this->formatText($line->text);
+            }
+        }
+    
+        return $playScenes;
+    
+    }
+
+    /**
+     * Function to format text by wrapping content inside parentheses with <em> tags
+     *
+     * @param string $text
+     * @return string
+     */
+    protected function formatText($text)
     {
-        return PlayScenes::where('play_id', $request->playId)->with('playTextbook')->get();
+        // Regular expression to match and replace text inside parentheses
+        return preg_replace('/\(([^()]*|\([^()]*\))*\)/', '<em>$0</em>', $text);
     }
 
     public function getSections(Request $request)
