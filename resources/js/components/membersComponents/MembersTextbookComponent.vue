@@ -323,7 +323,7 @@ p {
 
 .tb-small {
   .description{
-    font-size: 0.7rem;
+    font-size: 0.9rem;
   }
 
   .said-by {
@@ -333,7 +333,7 @@ p {
 
 .tb-medium {
   .description{
-    font-size: 0.7rem;
+    font-size: 1.1rem;
   }
   
   .said-by {
@@ -343,7 +343,7 @@ p {
 
 .tb-large {
   .description{
-    font-size: 0.7rem;
+    font-size: 1.3rem;
   }
   
   .said-by {
@@ -353,7 +353,7 @@ p {
 
 .tb-x-large {
   .description{
-    font-size: 0.7rem;
+    font-size: 1.5rem;
   }
   
   .said-by {
@@ -363,7 +363,7 @@ p {
 
 .tb-xx-large {
   .description{
-    font-size: 0.7rem;
+    font-size: 1.7rem;
   }
   
   .said-by {
