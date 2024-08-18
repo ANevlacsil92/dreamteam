@@ -118,11 +118,12 @@
           <h3>{{ scene.subtitle }}</h3>
         </div>
 
-        <div class="row mt-3 mb-2 d-flex justify-content-center">
-          <p>{{ scene.description }}</p>
-        </div>
-
         <div :class="'tb-' + fs">
+
+          
+          <div class="row mt-3 mb-2 d-flex justify-content-center">
+            <p class="description">{{ scene.description }}</p>
+          </div>
             
           <div
             class="row"
@@ -311,36 +312,60 @@ p {
 }
 
 .tb-x-small {
+  .description{
+    font-size: 0.7rem;
+  }
+
   .said-by {
     font-size: 0.7rem;
   }
 }
 
 .tb-small {
+  .description{
+    font-size: 0.7rem;
+  }
+
   .said-by {
     font-size: 0.9rem;
   }
 }
 
 .tb-medium {
+  .description{
+    font-size: 0.7rem;
+  }
+  
   .said-by {
     font-size: 1.1rem;
   }
 }
 
 .tb-large {
+  .description{
+    font-size: 0.7rem;
+  }
+  
   .said-by {
     font-size: 1.3rem;
   }
 }
 
 .tb-x-large {
+  .description{
+    font-size: 0.7rem;
+  }
+  
   .said-by {
     font-size: 1.5rem;
   }
 }
 
 .tb-xx-large {
+  .description{
+    font-size: 0.7rem;
+  }
+  
   .said-by {
     font-size: 1.7rem;
   }
