@@ -1,27 +1,25 @@
 <template>
   <div class="container-fluid container-main">
-    <div class="row mt-5">
+    <!--<div class="row mt-5">
       <div class="col p-0 d-flex justify-content-center text-center">
         <h1><a href="https://shop.eventjet.at/bd543dad-95a8-4088-8792-1f7e4ce75418"><u>Tickets Hier erhältlich!</u></a></h1>
       </div>
-    </div>
+    </div>-->
     <div class="row mt-5 ">
       <div class="col d-flex justify-content-center text-center">
-        <h2>Wir freuen uns auf die Wiederaufnahme des Stücks "Der muss es sein".</h2>
+        <h2>Wir freuen uns auf unser nächstes Stück "Der süßeste Wahnsinn".</h2>
       </div>
     </div>
-    <div class="row mt-2">
+    <div class="row mt-5 d-flex justify-content-center">
+      <div class="col-8 col-md-3 d-flex justify-content-center">
+        <img src="/images/plays/der-suesseste-wahnsinn/cover.jpg" width="80%" />
+      </div>
+    </div>
+    <div class="row mt-5">
       <div class="col d-flex justify-content-center text-center">
-        <h2>Zu sehen am 28. und 29. April 2023, jeweils 19:30, im <a href="https://goo.gl/maps/dbbZkUg4A6sLfjek9"><u>Stadtsaal Purkersdorf.</u></a></h2>
+        <h2>Zu sehen von 19.-22.03.2025 und 25-29.03.2025 , jeweils 19:30, im <a href="https://maps.app.goo.gl/vJrurmL8L2YdJy1R8"><u>Theater Center Forum.</u></a></h2>
       </div>
     </div>
-    <a href="https://www.dermussessein.at">
-      <div class="row mt-5 d-flex justify-content-center">
-        <div class="col-8 col-md-3 d-flex justify-content-center">
-          <img src="/images/plays/dermussessein.png" width="80%" />
-        </div>
-      </div>
-    </a>
   </div>
 </template>
 
