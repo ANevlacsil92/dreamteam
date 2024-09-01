@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -117,6 +118,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/api/play-sections', [ApiController::class, 'getSections']);
     Route::get('/api/play-schedule', [ApiController::class, 'getScheduleData']);
     Route::post('/api/textbook/change-line', [ApiController::class, 'changeLine']);
+    Route::post('/api/textbook/toggle-line-delete', [ApiController::class, 'toggleLineDelete']);
     Route::post('/api/schedule/change-appointment', [ApiController::class, 'changeAppointment']);
     Route::delete('/api/schedule/change-appointment', [ApiController::class, 'deleteAppointment']);
 

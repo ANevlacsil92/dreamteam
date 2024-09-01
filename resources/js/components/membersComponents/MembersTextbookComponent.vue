@@ -69,14 +69,26 @@
                     />
                   </div>
                 </div>
-                <div class="row col-1">
-                  <button
+                <div class="row col-12">
+                  <div class="col-auto">
+                    <button
                     type="button"
                     class="btn btn-light"
                     v-on:click="saveLine()"
-                  >
+                    >
                     Speichern
                   </button>
+                  </div>
+                  <div class="col-auto">
+                    <button
+                    type="button"
+                    class="btn btn-light"
+                    v-on:click="toggleLineDelete()"
+                    v-if="activeLine" 
+                    >
+                      {{ activeLine.deleted_at ? 'Wiederherstellen' : 'Löschen' }}
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -91,13 +103,22 @@
     </div>
     <div class="row d-flex align-items-center mt-2 mb-2" v-if="play">
       <div class="col-2">Markiere Text für:</div>
-      <div class="col-8">
+      <div class="col-5">
         <select v-model="selectedRole">
           <option value=""></option>
           <option v-for="role in play.roles" v-bind:key="role.id">
             {{ role.name }}
           </option>
         </select>
+      </div>
+      <div class="col-md-3 d-flex align-items-center">
+        <input
+          type="checkbox"
+          v-model="showDeleted"
+          id="showDeleted"
+          name="showDeleted"
+          class="mr-1"/>
+        <label for="showDeleted" class="m-0">Gelöschte Texte anzeigen</label>
       </div>
       <div class="col-md-2">
         <button class="btn btn-nostyle" @click="changeFont('bigger')" style="font-size: 1.4rem;"><span>Aa+</span></button>
@@ -131,15 +152,15 @@
             v-bind:key="line.id"
             v-on:dblclick="openmodal(line)"
           >
-            <div class="container m-0 p-0">
+            <div class="container m-0 p-0" v-if="!line.deleted_at || showDeleted" :class="{'crossed': showDeleted && line.deleted_at}">
               <div
                 :class="
                   selectedRole != '' && line.said_by.includes(selectedRole)
-                    ? 'row selected-text'
-                    : 'row'
+                    ? 'row no-print-break selected-text'
+                    : 'row no-print-break'
                 "
               >
-                <div class="col-md-3">
+                <div class="col-sm-3">
                   <b
                     ><span class="line-number">{{
                       pad(line.linenumber, 4)
@@ -147,7 +168,7 @@
                     <span class="said-by">{{ line.said_by }}:</span></b
                   >
                 </div>
-                <div class="col-md-9">
+                <div class="col-sm-9">
                   <span class="said-by" v-html="line.formattedText"></span>
                 </div>
               </div>
@@ -176,6 +197,7 @@ export default {
       roles: [],
       selectedRole: null,
       activeLine: null,
+      showDeleted: false,
       fs: "small"
     };
   },
@@ -224,6 +246,24 @@ export default {
           line: _this.activeLine,
         },
         success: function (data) {
+          $("#siteNoteModal").modal("hide");
+        },
+      });
+    },
+    toggleLineDelete: function () {
+      let _this = this;
+
+      $.ajax({
+        url: "/api/textbook/toggle-line-delete",
+        method: "POST",
+        headers: {
+          'X-CSRF-TOKEN': _this.csrf
+        },
+        data: {
+          line: _this.activeLine,
+        },
+        success: function (data) {
+          _this.activeLine.deleted_at = data.deleted_at;
           $("#siteNoteModal").modal("hide");
         },
       });
@@ -299,7 +339,20 @@ p {
 }
 
 .selected-text {
-  background-color: #fff01f;
+  // span elements in the selected-text class which is not of class no-bg
+  span { 
+    background-color: #fff01f;
+
+    ::v-deep .no-bg {
+      background-color: #FCE8CB;
+    }
+
+    @media print {
+      ::v-deep .no-bg {
+        background-color: #fff;
+      }
+    }
+  }
 }
 
 .modal-dialog {
@@ -369,5 +422,17 @@ p {
   .said-by {
     font-size: 1.7rem;
   }
+}
+
+.crossed {
+  span {
+    text-decoration: line-through;
+  }
+} 
+
+@media print {
+  .no-print-break {
+    page-break-inside: avoid;
+  } 
 }
 </style>

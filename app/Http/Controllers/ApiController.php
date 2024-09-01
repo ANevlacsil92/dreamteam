@@ -55,7 +55,7 @@ class ApiController extends Controller
     protected function formatText($text)
     {
         // Regular expression to match and replace text inside parentheses
-        return preg_replace('/\(([^()]*|\([^()]*\))*\)/', '<em>$0</em>', $text);
+        return preg_replace('/\(([^()]*|\([^()]*\))*\)/', '<span class="no-bg"><em>$0</em></span>', $text);
     }
 
     public function getSections(Request $request)
@@ -89,6 +89,19 @@ class ApiController extends Controller
         $line = PlayTextbook::find($request->line["id"]);
         $line->text = $request->line["text"];
         $line->following_stage_direction = $request->line["following_stage_direction"];
+        $line->save();
+        return response($line);
+    }
+
+    public function toggleLineDelete(Request $request)
+    {
+        
+        $line = PlayTextbook::where("id", $request->line["id"])->withTrashed()->first();
+        if($line->deleted_at == null){
+            $line->delete();
+        } else {
+            $line->restore();
+        }
         $line->save();
         return response($line);
     }

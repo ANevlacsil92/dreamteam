@@ -12,7 +12,8 @@ class PlayScenes extends Model
    use SoftDeletes;
 
    public function playTextbook(){
-      return $this->hasMany(PlayTextbook::class);
+      // with soft deletes
+      return $this->hasMany(PlayTextbook::class)->withTrashed();
    }
 
    public function sections(){
