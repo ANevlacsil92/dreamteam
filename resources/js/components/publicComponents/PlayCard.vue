@@ -1,5 +1,5 @@
 <template>
-<a class="anchor-no-dec" :href="'/bisher-gespielt/' + play.shortlink_url">
+<a class="anchor-no-dec" :href="'/produktionen/' + play.shortlink_url">
   <div class="play-card">
     <img :src="'/images/plays/' + play.shortlink_url + '/' + play.cover_photo_url" class="play-card-image"/>
     <h1 class="play-card-year" v-if="play.production_rep_year">{{ play.production_year }}{{ play.production_year != play.production_rep_year ? " - " + play.production_rep_year : "" }}</h1>

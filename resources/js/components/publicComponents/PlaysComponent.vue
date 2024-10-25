@@ -2,7 +2,7 @@
   <div class="container container-main">
     <div class="row mt-5 mb-5">
       <div class="col p-0 d-flex justify-content-center text-center">
-        <h1>Bisher Gespielt
+        <h1>Produktionen
         </h1>
       </div>
     </div>      

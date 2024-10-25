@@ -10,10 +10,12 @@
         <h2>Wir freuen uns auf unser nächstes Stück "Der süßeste Wahnsinn".</h2>
       </div>
     </div>
-    <div class="row mt-5 d-flex justify-content-center">
+    <div class="row mt-5 d-flex justify-content-center" >
       <div class="col-8 col-md-3 d-flex justify-content-center">
-        <img src="/images/plays/der-suesseste-wahnsinn/cover.jpg" width="80%" />
-      </div>
+        <a href="/produktionen/der-suesseste-wahnsinn">
+          <img class="announcement" src="/images/plays/der-suesseste-wahnsinn/cover.jpg" width="80%" />
+        </a>
+        </div>
     </div>
     <div class="row mt-5">
       <div class="col d-flex justify-content-center text-center">

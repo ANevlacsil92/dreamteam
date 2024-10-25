@@ -14,6 +14,13 @@
     src: local("PT Sans"), url(/fonts/PTSans-Regular.ttf) format("truetype");
   }
 
+  #app{
+    // height 100vh - height navbar
+    height: calc(100vh);
+    display: flex; 
+    flex-direction: column;
+  }
+
 .card-header{
     background-color: #fff0!important;
 }
@@ -255,6 +262,26 @@
   }
 }
 
+.announcement {
+  border: 0;
+  box-shadow:  0 0 10px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+
 .light-grid:hover{
   opacity: .6;
+}
+
+.footer {
+  background-color: #b32424;
+  justify-content: center;
+  margin-top: auto;
+
+  .imprint{
+    background-color: #b32424;
+    border: none;
+    color: white;
+    margin: 0;
+  }
+  
 }

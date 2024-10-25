@@ -1,5 +1,5 @@
 <template>
-<a class="anchor-no-dec w-100" :href="type=='actor' ? '/bisher-gespielt/' + play.shortlink_url : '/das-team/' + actor.shortlink_url">
+<a class="anchor-no-dec w-100" :href="type=='actor' ? '/produktionen/' + play.shortlink_url : '/das-team/' + actor.shortlink_url">
   <div class="role-card">
     <img :src="'/images/plays/' + play.shortlink_url + '/' + role.photo_url" class="role-card-image" v-if="role.photo_url"/>
     <img :src="'/storage/' + actor.extended_user_property.photo_url" class="role-card-image" v-else-if="actor.extended_user_property && actor.extended_user_property.photo_url" onerror="this.src='/storage/imgs/profilepictures/logo_klein.png'"/>

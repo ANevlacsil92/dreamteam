@@ -66,7 +66,7 @@
                     <ul class="navbar-nav ml-md-3">
 
                         <li class="nav-item">
-                            <a class="nav-link" href="/bisher-gespielt" style="color: #f39200!important; font-weight:bold">Bisher Gespielt</a>
+                            <a class="nav-link" href="/produktionen" style="color: #f39200!important; font-weight:bold">Produktionen</a>
                         </li>
                     </ul>
 

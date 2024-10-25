@@ -62,11 +62,11 @@ Route::get('/das-team/{shortlink}', function (Request $request) {
     return view('home')->with(['component' => 'team-member-component','params' => $params]);
 });
 
-Route::get('/bisher-gespielt', function () {
+Route::get('/produktionen', function () {
     return view('home')->with(['component' => 'plays-component']);
 });
 
-Route::get('/bisher-gespielt/{shortlink}', function (Request $request) {
+Route::get('/produktionen/{shortlink}', function (Request $request) {
 
     $play = Play::where('shortlink_url', $request->shortlink)->firstOrFail();
 
