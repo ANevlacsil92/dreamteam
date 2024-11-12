@@ -7,12 +7,16 @@ use App\Models\Play;
 use App\Models\PlayScenes;
 use App\Models\PlaySchedule;
 use App\Models\PlayTextbook;
+use App\Models\SetTemperature;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use PhpMqtt\Client\ConnectionSettings;
+use PhpMqtt\Client\MqttClient;
 use stdClass;
 
 class ApiController extends Controller
@@ -241,6 +245,89 @@ class ApiController extends Controller
             array_push($ret, explode("/", $file)[3]);
         }
         return $ret;
+    }
 
+    public function getTemperatureData(Request $request){
+        if(isset($request->from) && isset($request->to)){
+            // return data between from and to while partitioning the data into 15 parts
+            $data = DB::select('SELECT * FROM temperature WHERE created_at BETWEEN ? AND ? ORDER BY created_at ASC', [$request->from, $request->to]);
+        } else {
+            // else return last hour and partition into 15 parts
+            $data = DB::select('SELECT * FROM temperature WHERE created_at > DATE_SUB(NOW(), INTERVAL 3 HOUR)');
+        }
+
+        $partitionsize = ceil(count($data) / 60);
+
+        $partitions = [];
+        // loop over data and take the average of each partition
+        for($i = 0; $i < count($data); $i += $partitionsize){
+            $sum = 0;
+            $sumCount = 0;
+            for($j = 0; $j < $partitionsize; $j++){
+                if($i + $j < count($data)){
+                    $sum += $data[$i + $j]->temperature;
+                    $sumCount++;
+                }
+            }
+            $avg = $sum / $sumCount;
+            $timestamp = $data[$i]->created_at;
+
+            $entry = new stdClass();
+            $entry->temperature = $avg;
+            $entry->created_at = $timestamp;
+
+            array_push($partitions, $entry);
+
+        }
+
+        $minDate = DB::table('temperature')->min('created_at');
+        $maxDate = DB::table('temperature')->max('created_at');
+        $currentTemp = DB::table('temperature')->orderBy('created_at', 'desc')->first();
+        // setData is the set temperature with the right timezones
+        $setData = DB::select('SELECT * FROM set_temperature order by created_at desc');
+        $currentSetTemp = $setData[0];
+
+        // if currentTemp older than 5 minutes, return null
+        if(strtotime($currentTemp->created_at) < strtotime('-5 minutes')){
+            $currentTemp = null;
+        }
+
+        $ret = new stdClass();
+        $ret->data =  $partitions;
+        $ret->setData = $setData;
+        $ret->currentTemp = $currentTemp;
+        $ret->currentSetTemp = $currentSetTemp;
+        $ret->minDate = $minDate;
+        $ret->maxDate = $maxDate;
+
+        return $ret;
+
+    }
+
+    public function setTemperature(Request $request){
+        // set timezone to Vienna
+        date_default_timezone_set('Europe/Vienna');
+
+        $temperature = new SetTemperature();
+        $temperature->temperature = $request->temperature;
+        $temperature->ack = false;
+        $temperature->save();
+
+        $server   = Config::get('mqtt.mqttServer');
+        $username = Config::get('mqtt.mqttUsername');
+        $password = Config::get('mqtt.mqttPassword');
+        $port     = Config::get('mqtt.mqttPort');
+
+        $mqtt = new MqttClient($server, $port, 'dreamteam' . rand(0, 1000));
+
+        
+        $connectionSettings = (new ConnectionSettings)
+        ->setUsername($username)
+        ->setPassword($password);
+
+        $mqtt->connect($connectionSettings, true);
+        $mqtt->publish('probenlokal/temp/ctrl/target', $request->temperature, 0, 0);
+
+        return response("OK");
     }
 }

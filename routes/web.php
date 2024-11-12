@@ -113,6 +113,16 @@ Route::middleware(['auth'])->group(function () {
         return view('home')->with(['component' => 'members-schedule-component','params' => $params]);
     });
 
+    Route::get('/members/temperature', function () {
+        // get current user
+        $user = Auth::user();
+        // check if user has right email
+        if($user->email != "a.nevlacsil@hotmail.com" && $user->email != "alexander@nevlacsil.at") {
+            return redirect('/members');
+        }
+        return view('home')->with(['component' => 'members-temperature-component']);
+    });
+
     
     Route::get('/api/play-textbook', [ApiController::class, 'getPlayTextbook']);
     Route::get('/api/play-sections', [ApiController::class, 'getSections']);
@@ -121,6 +131,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/api/textbook/toggle-line-delete', [ApiController::class, 'toggleLineDelete']);
     Route::post('/api/schedule/change-appointment', [ApiController::class, 'changeAppointment']);
     Route::delete('/api/schedule/change-appointment', [ApiController::class, 'deleteAppointment']);
+
+    Route::get('/api/temperature', [ApiController::class, 'getTemperatureData']);
+    Route::post('/api/temperature', [ApiController::class, 'setTemperature']);
 
     
     Route::get('/mixer/get-sounds', [MixerController::class, 'getSounds']);

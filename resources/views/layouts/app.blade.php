@@ -87,6 +87,12 @@
                         @endif
                         @else
 
+                        @if (Auth::user()->email == 'a.nevlacsil@hotmail.com' || Auth::user()->email == 'alexander@nevlacsil.at')
+                        <li class="nav-item">
+                            <a class="nav-link" href="/members/temperature" style="color: #f39200!important; font-weight:bold">Heizungssteuerung</a>
+                        </li>
+                        @endif
+
                         <li class="nav-item">
                             <a class="nav-link" href="/members" style="color: #f39200!important; font-weight:bold">Members</a>
                         </li>

@@ -39,6 +39,7 @@ Vue.component('members-textbook-component',  require('./components/membersCompon
 Vue.component('members-video-component',  require('./components/membersComponents/MembersVideoComponent.vue').default);
 Vue.component('members-schedule-component',  require('./components/membersComponents/MembersScheduleComponent.vue').default);
 Vue.component('members-user-settings-component',  require('./components/membersComponents/MembersUserSettingsComponent.vue').default);
+Vue.component('members-temperature-component',  require('./components/membersComponents/MembersTemperatureComponent.vue').default);
 
 Vue.component('mixer-component',  require('./components/membersComponents/MixerComponent.vue').default);
 /**
