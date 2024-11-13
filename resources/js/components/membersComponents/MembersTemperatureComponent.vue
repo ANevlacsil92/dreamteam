@@ -99,6 +99,7 @@ export default {
       // labels shoud be the timestamp but without seconds using moment.js with Day and Time
       let labels = this.data.data.map((temp) => temp.created_at);
       let values = this.data.data.map((temp) => temp.temperature);
+      let valuesHumidity = this.data.data.map((hum) => hum.humidity);
       
       let setValuesArray = new Array(labels.length).fill(null);
 
@@ -124,15 +125,25 @@ export default {
               borderColor: "rgb(255, 99, 132)",
               borderWidth: 1,
               fill: false,
+              yAxisID: 'y',
             },
             {
               label: "Solltemperatur",
               data: setValuesArray,
-              // borderColor flatBlue
+              // borderColor flatGreen
+              borderColor: "rgb(0, 128, 0)",
+              borderWidth: 1,
+              fill: false,
+              yAxisID: 'y',
+            },
+            {
+              label: "Luftfeuchtigkeit (Aktuell: " + this.data.currentHumidity.humidity + "°C)",
+              data: valuesHumidity,
               borderColor: "rgb(66, 134, 244)",
               borderWidth: 1,
               fill: false,
-            }
+              yAxisID: 'y1',
+            },
           ],
         },
         options: {
@@ -147,8 +158,25 @@ export default {
                   },
                 }
             }
-          }
-          
+          },
+          scales: {
+            y: {
+              type: 'linear',
+              display: true,
+              position: 'left',
+              // min and max values for y-axis
+            },
+            y1: {
+              type: 'linear',
+              display: true,
+              position: 'right',
+
+              // grid line settings
+              grid: {
+                drawOnChartArea: false, // only want the grid lines for one axis to show up
+              },
+            }
+          },
         },
       });
     },
@@ -225,7 +253,7 @@ p {
 .temp-wrapper {
   position: relative;
   height: 600px;
-  padding-top: 50px;
+  padding-top: 70px;
 }
 
 .solltemp {
