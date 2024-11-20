@@ -11,6 +11,30 @@
     <div class="row">
       <announcement-component></announcement-component>
     </div>
+
+    <div class="row mt-5 pt-5 mb-0 pb-5 d-flex justify-content-center sponsor-section">
+      <div class="col">
+        <div class="container">
+          <div class="row">
+            <h1>Wir bedanken uns bei unseren Sponsoren</h1>
+          </div>
+          <div class="row mt-4">
+            <div class="col-md d-flex justify-content-center align-items-center px-2">
+              <a href="https://afp-zt.at/"><img class="w-100" src="/images/sponsors/aignerpartner.jpg"/></a>
+            </div>
+            <div class="col-md d-flex justify-content-center align-items-center px-2">
+              <a href="https://fertax.at/"><img class="w-100" src="/images/sponsors/fertax.jpg"/></a>
+            </div>
+            <div class="col-md d-flex justify-content-center align-items-center px-2">
+              <a href="https://www.gross-gross.eu/"><img class="w-100" src="/images/sponsors/gross.jpg"/></a>
+            </div>
+            <div class="col-md d-flex justify-content-center align-items-center px-2">
+              <a href="http://www.vest-immobilien.at/"><img class="w-100" src="/images/sponsors/vest.jpg"/></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
