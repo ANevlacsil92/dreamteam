@@ -28,9 +28,9 @@
       <button
         v-for="button in buttons"
         :key="button.label"
-        @click="from = button.from; to = button.to; getData();"
+        @click="mins = button.mins; getData();"
         class="btn btn-dreamteam"
-        :class="{ 'btn-dreamteam-active': button.from === from }"
+        :class="{ 'btn-dreamteam-active': button.mins === mins }"
       >
         {{ button.label }}
       </button>
@@ -48,41 +48,34 @@ export default {
     return {
       csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
       data: null,
-      from: null,
-      to: null,
+      mins: 180,
       myChart: null,
       currentSetPoint: null,
       refSetPoint: null,
       buttons: [
         {
           label: "Letzte 24 Stunden",
-          from: this.moment().subtract(1, "days").format("YYYY-MM-DD HH:mm:ss"),
-          to: this.moment().format("YYYY-MM-DD HH:mm:ss"),
+          mins: 1440,
         },
         {
           label: "Letzte 12 Stunden",
-          from: this.moment().subtract(12, "hours").format("YYYY-MM-DD HH:mm:ss"),
-          to: this.moment().format("YYYY-MM-DD HH:mm:ss"),
+          mins: 720,
         },
         {
           label: "Letzte 6 Stunden",
-          from: this.moment().subtract(6, "hours").format("YYYY-MM-DD HH:mm:ss"),
-          to: this.moment().format("YYYY-MM-DD HH:mm:ss"),
+          mins: 360,
         },
         {
           label: "Letzte 3 Stunden",
-          from: null,
-          to: null,
+          mins: 180,
         },
         {
           label: "Letzte Stunde",
-          from: this.moment().subtract(1, "hours").format("YYYY-MM-DD HH:mm:ss"),
-          to: this.moment().format("YYYY-MM-DD HH:mm:ss"),
+          mins: 60,
         },
         {
           label: "Heute",
-          from: this.moment().startOf("day").format("YYYY-MM-DD HH:mm:ss"),
-          to: this.moment().format("YYYY-MM-DD HH:mm:ss"),
+          mins:  this.moment().diff(this.moment().startOf('day'), 'minutes'),
         }
       ]
     };
@@ -97,19 +90,10 @@ export default {
 
       let ctx = document.getElementById("temperatureChart").getContext("2d");
       // labels shoud be the timestamp but without seconds using moment.js with Day and Time
-      let labels = this.data.data.map((temp) => temp.created_at);
+      let labels = this.data.data.map((temp) => temp.timestamp);
       let values = this.data.data.map((temp) => temp.temperature);
       let valuesHumidity = this.data.data.map((hum) => hum.humidity);
-      
-      let setValuesArray = new Array(labels.length).fill(null);
-
-      labels.forEach(label => {
-        // get all setPoints where created_at is smaller than the current label
-        let setPoint = this.data.setData.find(setPoint => this.moment(setPoint.created_at).isBefore(this.moment(label)));
-        if (setPoint) {
-          setValuesArray[labels.indexOf(label)] = setPoint.temperature;
-        }
-      });
+      let setValuesArray = this.data.data.map((temp) => temp.set_temperature);
 
 
       Chart.register(...registerables);
@@ -120,7 +104,7 @@ export default {
           labels: labels,
           datasets: [
             {
-              label: "Temperatur (Aktuell: " + this.data.currentTemp.temperature + "°C)",
+              label: "Temperatur (Aktuell: " + this.data.data[this.data.data.length-1].temperature + "°C)",
               data: values,
               borderColor: "rgb(255, 99, 132)",
               borderWidth: 1,
@@ -137,7 +121,7 @@ export default {
               yAxisID: 'y',
             },
             {
-              label: "Luftfeuchtigkeit (Aktuell: " + this.data.currentHumidity.humidity + "°C)",
+              label: "Luftfeuchtigkeit (Aktuell: " + this.data.data[this.data.data.length-1].humidity + "%)",
               data: valuesHumidity,
               borderColor: "rgb(66, 134, 244)",
               borderWidth: 1,
@@ -187,13 +171,11 @@ export default {
         url: "/api/temperature",
         type: "GET",
         data: {
-          from: this.from,
-          to: this.to,
+          mins: this.mins,
         },
         success: function (data) {
           _this.data = data;
           _this.currentSetPoint = data.currentSetTemp;
-          _this.refSetPoint = data.currentSetTemp.temperature;
           _this.createChart();
         },
       });

@@ -247,7 +247,7 @@ class ApiController extends Controller
         return $ret;
     }
 
-    public function getTemperatureData(Request $request){
+    public function getTemperatureDataOld(Request $request){
         if(isset($request->from) && isset($request->to)){
             // return data between from and to while partitioning the data into 15 parts
             $data = DB::select('SELECT temperature.temperature,humidity.humidity, temperature.created_at FROM `temperature`
@@ -330,6 +330,17 @@ class ApiController extends Controller
 
     }
 
+    public function getTemperatureData(Request $request){
+        // call stored proceedure sp_get_sensor_data with parameters of minutes
+        $data = DB::select('call sp_get_sensor_data(?)', [$request->mins]);
+
+        $ret = new stdClass();
+        $ret->data =  $data;
+        $ret->currentSetTemp = DB::select('SELECT * FROM set_temperature order by created_at desc')[0];
+
+        return $ret;
+    }
+
     public function setTemperature(Request $request){
         // set timezone to Vienna
         date_default_timezone_set('Europe/Vienna');
@@ -352,7 +363,7 @@ class ApiController extends Controller
         ->setPassword($password);
 
         $mqtt->connect($connectionSettings, true);
-        $mqtt->publish('probenlokal/temp/ctrl/target', $request->temperature, 0, 0);
+        $mqtt->publish('probenlokal/temp/ctrl/target', $request->temperature, 0, 1);
 
         return response("OK");
     }
