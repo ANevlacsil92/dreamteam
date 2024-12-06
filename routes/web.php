@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 
@@ -29,6 +30,12 @@ Auth::routes();
 
 Route::get('/', function () {
     return view('home')->with(['component' => 'home-component']);
+});
+
+Route::get('/linktest', function(Request $request){
+    Config::set('link_is_visible', false);
+    $linksettings = Config::get('linksettings');
+    dd($linksettings);
 });
 
 Route::get('/impressum', function () {
