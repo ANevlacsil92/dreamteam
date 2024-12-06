@@ -32,11 +32,6 @@ Route::get('/', function () {
     return view('home')->with(['component' => 'home-component']);
 });
 
-Route::get('/linktest', function(Request $request){
-    Config::set('link_is_visible', $request->vis ?? false);
-    $linksettings = Config::get('linksettings');
-    dd($linksettings);
-});
 
 Route::get('/impressum', function () {
     return view('imprint');
@@ -157,6 +152,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/mixer/{playId}', [MixerController::class, 'index']);
 
     Route::get('/callbacks/spotify', [MixerController::class, 'spotifyCallback']);
+
+    
+    Route::any('/link-settings', function(Request $request){
+        Config::set('linksettings.link_is_visible', boolval($request->vis) ?? false);
+        Config::set('linksettings.link_url', $request->url ?? false);
+        $linksettings = Config::get('linksettings');
+        return $linksettings;
+    });
     
 });
 
