@@ -33,7 +33,7 @@ Route::get('/', function () {
 });
 
 Route::get('/linktest', function(Request $request){
-    Config::set('link_is_visible', false);
+    Config::set('link_is_visible', $request->vis ?? false);
     $linksettings = Config::get('linksettings');
     dd($linksettings);
 });
