@@ -42,7 +42,7 @@ Route::get('/impressum', function () {
 //});
 
 Route::get('/tickets', function () {
-    return Redirect::to("https://www.theatercenterforum.com/nichts-fuer-ungut-reservierung/");
+    return Redirect::to("https://www.theatercenterforum.com/der-suesseste-wahnsinn-reservierung/");
 });
 
 /*Route::get('/christmas-announcement', function () {
