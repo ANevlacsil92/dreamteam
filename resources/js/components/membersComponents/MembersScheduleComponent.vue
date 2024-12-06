@@ -143,7 +143,7 @@
         </div>
         <div
           class="row mb-2"
-          v-for="rehearsal in schedule"
+          v-for="rehearsal in schedule.filter((appointment) => moment(appointment.practice_date, 'YYYY-MM-DD').startOf('day') >= moment().startOf('day'))"
           v-bind:key="rehearsal.id"
           v-on:dblclick="openmodal(rehearsal)"
         >
@@ -179,6 +179,8 @@
 </template>
 
 <script>
+import moment from 'moment';
+
 export default {
   props: ["user", "params"],
   data() {

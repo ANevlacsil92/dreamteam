@@ -7,7 +7,7 @@
     </div>-->
     <div class="row mt-5 ">
       <div class="col d-flex justify-content-center text-center">
-        <h2>Wir freuen uns auf unser nächstes Stück "Der süßeste Wahnsinn".</h2>
+        <h2>Wir freuen uns auf unser nächstes Stück "Der süßeste Wahnsinn". (<a href="/tickets">Zu den Tickets</a>)</h2>
       </div>
     </div>
     <div class="row mt-5 d-flex justify-content-center" >
@@ -43,6 +43,6 @@ a {
   color: #f39200 !important;
 }
 a:hover {
-  text-decoration: none;
+  text-decoration: underline;
 }
 </style>
