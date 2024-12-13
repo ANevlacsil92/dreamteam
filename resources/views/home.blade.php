@@ -7,15 +7,14 @@
         </div>
           <div class="row nav-row footer">
         <!-- Button trigger modal -->
-          <button
-            class="imprint"
-            type="button"
-            class="btn btn-link"
-            data-bs-toggle="modal"
-            data-bs-target="#siteNoteModal"
-          >
-            Impressum
+         <a href="/impressum" style="width:100%; padding:5px;">
+           <button
+           class="imprint w-100"
+           type="button"
+           >
+           Impressum
           </button>
+        </a>
       </div>
     </div>
 @endsection
