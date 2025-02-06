@@ -5,7 +5,7 @@ from mysql.connector import Error
 
 # Database configuration
 DB_CONFIG = {
-    'host': '133.hosttech.eu',       # e.g., 'localhost' or the server's IP
+    'host': '185.101.158.100',       # e.g., 'localhost' or the server's IP
     'user': 'dreamteam',             # e.g., 'root' or your MariaDB username
     'password': '69Zrw!l48',     # MariaDB password
     'database': 'dreamteam'    # Name of the database to use
@@ -16,6 +16,8 @@ MQTT_BROKER = "mqtt.tipp.space"  # Replace with your MQTT broker address
 MQTT_PORT = 1883                           # Default MQTT port
 MQTT_TOPIC = "probenlokal/temp/state/is"   # Topic to subscribe to
 MQTT_TOPIC_ACK = "probenlokal/temp/state/target_ack"
+MQTT_TOPIC_HUM = "probenlokal/hum/state/is"
+MQTT_TOPIC_POWER_STATE = "probenlokal/temp/state/switch"
 
 # Connect to the MariaDB database
 def connect_db():
@@ -44,6 +46,37 @@ def save_to_db(value):
             cursor.close()
             connection.close()
 
+def save_hum_to_db(value):
+    connection = connect_db()
+    if connection:
+        try:
+            cursor = connection.cursor()
+            # Insert the temperature value (assuming the table is named `temperature_data` and the column `value`)
+            cursor.execute("INSERT INTO humidity (humidity) VALUES (%s)", (value,))
+            connection.commit()
+            print(f"Saved value {value} to database.")
+        except Error as e:
+            print("Error inserting data:", e)
+        finally:
+            cursor.close()
+            connection.close()
+
+def save_state_to_db(value):
+    connection = connect_db()
+    if connection:
+        try:
+            cursor = connection.cursor()
+            # Insert the temperature value (assuming the table is named `temperature_data` and the column `value`)
+            cursor.execute("INSERT INTO heating_power_state (state) VALUES (%s)", (value,))
+            connection.commit()
+            print(f"Saved value {value} to database.")
+        except Error as e:
+            print("Error inserting data:", e)
+        finally:
+            cursor.close()
+            connection.close()
+
+
 def ack_in_db(value):
     connection = connect_db()
     if connection:
@@ -54,12 +87,13 @@ def ack_in_db(value):
             cursor.execute("SELECT * FROM set_temperature WHERE created_at >= NOW() - INTERVAL 5 MINUTE ORDER BY id DESC LIMIT 1")
             last_value = cursor.fetchone()
             # if last_value == value update ack to 1
-            if float(last_value["temperature"]) == float(value):
-                cursor.execute("UPDATE set_temperature SET ack = 1 WHERE id = " + str(last_value["id"]))
-                connection.commit()
-                print(f"Updated ack for value {value} to 1.")
-            else:
-                print(f"Value {value} not found in database.")
+            if last_value is not None:
+                if float(last_value["temperature"]) == float(value):
+                    cursor.execute("UPDATE set_temperature SET ack = 1 WHERE id = " + str(last_value["id"]))
+                    connection.commit()
+                    print(f"Updated ack for value {value} to 1.")
+                else:
+                    print(f"Value {value} not found in database.")
         except Error as e:
             print("Error updating ack:", e)
         finally:
@@ -72,7 +106,9 @@ def on_connect(client, userdata, flags, rc):
     if rc == 0:
         print("Connected to MQTT Broker!")
         client.subscribe(MQTT_TOPIC)
+        client.subscribe(MQTT_TOPIC_HUM)
         client.subscribe(MQTT_TOPIC_ACK)
+        client.subscribe(MQTT_TOPIC_POWER_STATE)
     else:
         print("Failed to connect, return code %d\n", rc)
 
@@ -81,7 +117,7 @@ def on_message(client, userdata, msg):
         # if topic is ack, do nothing
         if msg.topic == MQTT_TOPIC_ACK:
             ack_in_db(msg.payload.decode())
-        
+
         if msg.topic == MQTT_TOPIC:
             payload = msg.payload.decode()
             print(payload)
@@ -94,6 +130,34 @@ def on_message(client, userdata, msg):
                 save_to_db(value)
             else:
                 print("No 'value' field in payload:", payload)
+
+        if msg.topic == MQTT_TOPIC_HUM:
+            payload = msg.payload.decode()
+            print(payload)
+            data = json.loads(payload)
+            print(data)
+
+            # Extract the value (adjust if your JSON structure is different)
+            value = payload
+            if value is not None:
+                save_hum_to_db(value)
+            else:
+                print("No 'value' field in payload:", payload)
+
+        if msg.topic == MQTT_TOPIC_POWER_STATE:
+            payload = msg.payload.decode()
+            if(payload == "on"):
+                value = 1
+            else:
+                value = 0
+                
+            if value is not None:
+                save_state_to_db(value)
+            else:
+                print("No 'value' field in payload:", payload)
+
+
+
     except json.JSONDecodeError:
         print("Failed to decode JSON:", msg.payload)
 

@@ -94,6 +94,7 @@ export default {
       let values = this.data.data.map((temp) => temp.temperature);
       let valuesHumidity = this.data.data.map((hum) => hum.humidity);
       let setValuesArray = this.data.data.map((temp) => temp.set_temperature);
+      let powerStateArray = this.data.data.map((state) => state.power_state);
 
 
       Chart.register(...registerables);
@@ -128,6 +129,14 @@ export default {
               fill: false,
               yAxisID: 'y1',
             },
+            {
+              label: "Heizung (Aktuell: " + (parseInt(this.data.data[this.data.data.length-1].power_state) == 1 ? "On" : "Off") + ")",
+              data: powerStateArray,
+              borderColor: "rgb(255, 211, 42)",
+              borderWidth: 1,
+              fill: false,
+              yAxisID: 'y2',
+            },
           ],
         },
         options: {
@@ -141,6 +150,25 @@ export default {
                     size: 20,
                   },
                 }
+                //,
+                //onClick: function(e, legendItem) {
+                //  if(legendItem.text == "Solltemperatur" && legendItem.hidden == false) {
+                //    legendItem.hidden = true;
+                //  
+                //    // change the min max of the y axis to the min max of the values array
+                //    this.chart.options.scales.y.min = Math.min(...values) - Math.min(...values)/50;
+                //    this.chart.options.scales.y.max = Math.max(...values) +  Math.max(...values)/50;
+                //    this.chart.update();
+                //  }
+                //  else if(legendItem.text == "Solltemperatur" && legendItem.hidden == true) {
+                //    legendItem.hidden = false;
+                //  
+                //    // change the min max of the y axis to the min max of the values array and setValuesArray
+                //    this.chart.options.scales.y.min = Math.min(...values, ...setValuesArray) - 1;
+                //    this.chart.options.scales.y.max = Math.max(...values, ...setValuesArray) + 1;
+                //    this.chart.update();
+                //  }
+                //}
             }
           },
           scales: {
@@ -148,12 +176,30 @@ export default {
               type: 'linear',
               display: true,
               position: 'left',
-              // min and max values for y-axis
+              // min is the min of valuesset or ValuesArray
+              min: Math.min(...values, ...setValuesArray) - 1,
+              max: Math.max(...values, ...setValuesArray) + 1,
+              
             },
             y1: {
               type: 'linear',
               display: true,
               position: 'right',
+              // min is this.data.data.humidity minumum value - 10% and max is this.data.data.humidity maximum value + 10%
+              //min: Math.min(...valuesHumidity) - 10,
+              //max: Math.max(...valuesHumidity) + 10,
+
+              // grid line settings
+              grid: {
+                drawOnChartArea: false, // only want the grid lines for one axis to show up
+              },
+            },
+            y2: {
+              type: 'linear',
+              display: true,
+              position: 'right',
+              min: -0.2,
+              max: 1.2,
 
               // grid line settings
               grid: {
