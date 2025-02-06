@@ -177,8 +177,8 @@ export default {
               display: true,
               position: 'left',
               // min is the min of valuesset or ValuesArray
-              min: Math.min(...values, ...setValuesArray) - 1,
-              max: Math.max(...values, ...setValuesArray) + 1,
+              //min: Math.min(...values, ...setValuesArray) - 1,
+              //max: Math.max(...values, ...setValuesArray) + 1,
               
             },
             y1: {
@@ -186,8 +186,8 @@ export default {
               display: true,
               position: 'right',
               // min is this.data.data.humidity minumum value - 10% and max is this.data.data.humidity maximum value + 10%
-              //min: Math.min(...valuesHumidity) - 10,
-              //max: Math.max(...valuesHumidity) + 10,
+              min: Math.min(...valuesHumidity) - 10,
+              max: Math.max(...valuesHumidity) + 10,
 
               // grid line settings
               grid: {
